@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.9'
+  s.version          = '1.4.10'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -21,13 +21,11 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-  s.swift_version = '4.2'
-  
+  s.swift_version = '4.2'  
 
   s.subspec 'Prod' do |prod|
     prod.public_header_files = "Prod/TitanFramework.framework/Headers/*.h"
-    prod.source_files = "Prod/TitanFramework.framework/Headers/*.h"
-    prod.vendored_frameworks = "Prod/TitanFramework.framework"
+    prod.source_files = "Prod/TitanFramework.framework/Headers/*.h"    
     prod.resource_bundles = {
       'TitanFramework' => ['Prod/TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
     }    
@@ -35,12 +33,13 @@ TODO: Add long description of the pod here.
 
   s.subspec 'Dev' do |dev|
     dev.public_header_files = "Dev/TitanFramework.framework/Headers/*.h"
-    dev.source_files = "Dev/TitanFramework.framework/Headers/*.h"
-    dev.vendored_frameworks = "Dev/TitanFramework.framework"
+    dev.source_files = "Dev/TitanFramework.framework/Headers/*.h"    
     dev.resource_bundles = {
       'TitanFramework' => ['Dev/TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
     }
   end
+
+  s.vendored_frameworks = "TitanFramework.framework"
 
   s.static_framework = true
   s.libraries = 'c++'
