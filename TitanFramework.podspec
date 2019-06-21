@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.8'
+  s.version          = '1.4.9'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -23,13 +23,24 @@ TODO: Add long description of the pod here.
   s.ios.deployment_target = '9.0'
   s.swift_version = '4.2'
   
-  s.public_header_files = "TitanFramework.framework/Headers/*.h"
-  s.source_files = "TitanFramework.framework/Headers/*.h"
-  s.vendored_frameworks = "TitanFramework.framework"
-  
-  s.resource_bundles = {
-    'TitanFramework' => ['TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
-  }
+
+  s.subspec 'Prod' do |prod|
+    prod.public_header_files = "Prod/TitanFramework.framework/Headers/*.h"
+    prod.source_files = "Prod/TitanFramework.framework/Headers/*.h"
+    prod.vendored_frameworks = "Prod/TitanFramework.framework"
+    prod.resource_bundles = {
+      'TitanFramework' => ['Prod/TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
+    }    
+  end
+
+  s.subspec 'Dev' do |dev|
+    dev.public_header_files = "Dev/TitanFramework.framework/Headers/*.h"
+    dev.source_files = "Dev/TitanFramework.framework/Headers/*.h"
+    dev.vendored_frameworks = "Dev/TitanFramework.framework"
+    dev.resource_bundles = {
+      'TitanFramework' => ['Dev/TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
+    }
+  end
 
   s.static_framework = true
   s.libraries = 'c++'
