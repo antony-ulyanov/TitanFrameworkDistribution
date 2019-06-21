@@ -18,8 +18,7 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/antony-ulyanov/TitanFrameworkDistribution'
   s.license          = { :type => 'EULA', :file => 'LICENSE' }
   s.author           = { 'antony' => 'rumburu@gmail.com' }
-  # s.source           = 
-  # s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   s.swift_version = '4.2'  
