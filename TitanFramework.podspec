@@ -18,10 +18,12 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/antony-ulyanov/TitanFrameworkDistribution'
   s.license          = { :type => 'EULA', :file => 'LICENSE' }
   s.author           = { 'antony' => 'rumburu@gmail.com' }
-  s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
+  # s.source           = 
+  # s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
   s.swift_version = '4.2'  
+  s.default_subspec = 'Prod'
 
   s.subspec 'Prod' do |prod|
     prod.public_header_files = "Prod/TitanFramework.framework/Headers/*.h"
@@ -39,7 +41,7 @@ TODO: Add long description of the pod here.
     }
   end
 
-  s.vendored_frameworks = "TitanFramework.framework"
+  s.vendored_frameworks = "Prod/TitanFramework.framework"
 
   s.static_framework = true
   s.libraries = 'c++'
