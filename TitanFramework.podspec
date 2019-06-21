@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.14'
+  s.version          = '1.4.15'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -25,11 +25,12 @@ TODO: Add long description of the pod here.
   # s.default_subspec = 'Dev'
 
   s.public_header_files = "TitanFramework.framework/Headers/*.h"
-  s.source_files = "TitanFramework.framework/Headers/*.h"    
-  s.resource_bundles = {
-      'TitanFramework' => ['TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
-    }    
+  s.source_files = "TitanFramework.framework/Headers/*.h"
   s.vendored_frameworks = "TitanFramework.framework"
+
+  s.resource_bundles = {
+    'TitanFramework' => ['TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
+  }
 
   # s.subspec 'Prod' do |prod|
   #   prod.public_header_files = "Prod/TitanFramework.framework/Headers/*.h"
