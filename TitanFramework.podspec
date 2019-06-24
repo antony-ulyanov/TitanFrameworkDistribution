@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.15'
+  s.version          = '1.4.9'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -18,19 +18,18 @@ TODO: Add long description of the pod here.
   s.homepage         = 'https://github.com/antony-ulyanov/TitanFrameworkDistribution'
   s.license          = { :type => 'EULA', :file => 'LICENSE' }
   s.author           = { 'antony' => 'rumburu@gmail.com' }
-  s.source           = { :git => '~/work/projects/TitanFrameworkDistribution', :tag => s.version.to_s }
+  s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
   s.ios.deployment_target = '9.0'
-  s.swift_version = '4.2'  
-  # s.default_subspec = 'Dev'
-
+  s.swift_version = '4.2'
+  
   s.public_header_files = "TitanFramework.framework/Headers/*.h"
   s.source_files = "TitanFramework.framework/Headers/*.h"
   s.vendored_frameworks = "TitanFramework.framework"
-
+  
   s.resource_bundles = {
     'TitanFramework' => ['TitanFramework.framework/**/*.{storyboard,xib,xcdatamodel,html}']
-  }  
+  }
 
   s.static_framework = true
   s.libraries = 'c++'
@@ -53,3 +52,4 @@ TODO: Add long description of the pod here.
   s.dependency 'UITextView+Placeholder', '~> 1.2.1'
   s.dependency 'Mixpanel-swift', '~> 2.5.6'
 end
+
