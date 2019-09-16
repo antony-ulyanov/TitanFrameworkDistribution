@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.17'
+  s.version          = '1.4.18'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
