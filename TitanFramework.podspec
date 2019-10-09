@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.19.2'
+  s.version          = '1.4.20'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -20,7 +20,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'antony' => 'rumburu@gmail.com' }
   s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
   s.swift_version = '4.2'
   
   s.public_header_files = "TitanFramework.framework/Headers/*.h"
@@ -46,10 +46,10 @@ TODO: Add long description of the pod here.
   s.dependency 'SnapKit', '~> 4.2.0'
   s.dependency 'Validator', '~> 3.2.1'
   s.dependency 'MBProgressHUD', '~> 1.1.0'
-  s.dependency 'IQKeyboardManagerSwift'
+  s.dependency 'IQKeyboardManagerSwift', '~> 6.4.2'
   s.dependency 'FSCalendar', '~> 2.8.0'
   s.dependency 'InputMask', '~> 4.0.1'
-  s.dependency 'UITextView+Placeholder', '~> 1.2.1'
-  s.dependency 'Mixpanel-swift', '~> 2.5.6'
+  s.dependency 'UITextView+Placeholder', '~> 1.3.3'
+  s.dependency 'Mixpanel-swift', '~> 2.6.5'
 end
 
