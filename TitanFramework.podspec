@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.25'
+  s.version          = '1.4.26'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -38,7 +38,7 @@ TODO: Add long description of the pod here.
   s.dependency 'RxAlamofire', '~> 5.1'
   s.dependency 'RxCocoa', '~> 5.0'
   s.dependency 'Gloss', '~> 2.0'
-  s.dependency 'Crashlytics', '~> 3.12.0'
+  s.dependency 'Crashlytics'
   s.dependency 'XCGLogger', '~> 6.1.0'
   s.dependency 'SwiftDate', '~> 5.0.13'
   s.dependency 'FontBlaster', '~> 4.1.0'
