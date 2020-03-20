@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.26'
+  s.version          = '1.5.1-beta'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -34,21 +34,22 @@ TODO: Add long description of the pod here.
   s.static_framework = true
   s.libraries = 'c++'
 
-  s.dependency 'GoogleWebRTC', '1.1.20621'
-  s.dependency 'RxAlamofire', '~> 5.1'
+  s.dependency 'GoogleWebRTC', '1.1.29400'
+  s.dependency 'Alamofire', '~> 4.4'
+  s.dependency 'RxAlamofire', '~> 5.1.0'
   s.dependency 'RxCocoa', '~> 5.0'
   s.dependency 'Gloss', '~> 2.0'
-  s.dependency 'Crashlytics'
+  s.dependency 'Crashlytics', '~> 3.12.0'
   s.dependency 'XCGLogger', '~> 6.1.0'
   s.dependency 'SwiftDate', '~> 5.0.13'
   s.dependency 'FontBlaster', '~> 4.1.0'
-  s.dependency 'SnapKit', '~> 4.2.0'
+  s.dependency 'SnapKit', '~> 5.0'
   s.dependency 'Validator', '~> 3.2.1'
   s.dependency 'MBProgressHUD', '~> 1.1.0'
   s.dependency 'IQKeyboardManagerSwift', '~> 6.4.2'
   s.dependency 'FSCalendar', '~> 2.8.0'
-  s.dependency 'InputMask', '~> 4.0.1'
+  s.dependency 'InputMask', '~> 5.0.0'
   s.dependency 'UITextView+Placeholder', '~> 1.3.3'
-  s.dependency 'Mixpanel-swift', '~> 2.6.5'
+  s.dependency 'Mixpanel-swift', '2.6.5'
 end
 

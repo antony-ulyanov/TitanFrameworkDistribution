@@ -312,6 +312,63 @@ SWIFT_CLASS("_TtC14TitanFramework12MimasManager")
 
 
 
+SWIFT_CLASS("_TtC14TitanFramework19MonthYearPickerView")
+@interface MonthYearPickerView : UIControl
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+@end
+
+@class UIPickerView;
+
+@interface MonthYearPickerView (SWIFT_EXTENSION(TitanFramework)) <UIPickerViewDelegate>
+- (void)pickerView:(UIPickerView * _Nonnull)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component;
+@end
+
+
+@interface MonthYearPickerView (SWIFT_EXTENSION(TitanFramework)) <UIPickerViewDataSource>
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView * _Nonnull)pickerView SWIFT_WARN_UNUSED_RESULT;
+- (NSInteger)pickerView:(UIPickerView * _Nonnull)pickerView numberOfRowsInComponent:(NSInteger)component SWIFT_WARN_UNUSED_RESULT;
+- (NSString * _Nullable)pickerView:(UIPickerView * _Nonnull)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component SWIFT_WARN_UNUSED_RESULT;
+@end
+
+
+SWIFT_CLASS("_TtC14TitanFramework14MultiUnitRuler") SWIFT_AVAILABILITY(ios,introduced=10.0)
+@interface MultiUnitRuler : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame OBJC_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)layoutSubviews;
+@end
+
+
+
+
+SWIFT_CLASS("_TtC14TitanFramework15RangeMarkerType")
+@interface RangeMarkerType : NSObject <NSCopying>
+@property (nonatomic, readonly, copy) NSString * _Nonnull description;
+- (id _Nonnull)copyWithZone:(struct _NSZone * _Nullable)zone SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC14TitanFramework16RangePointerView")
+@interface RangePointerView : UIView
+- (nonnull instancetype)initWithFrame:(CGRect)frame SWIFT_UNAVAILABLE;
+- (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
+- (void)drawRect:(CGRect)rect;
+@end
+
+
+SWIFT_CLASS("_TtC14TitanFramework11SegmentUnit") SWIFT_AVAILABILITY(ios,introduced=10.0)
+@interface SegmentUnit : NSObject <NSCopying>
+- (id _Nonnull)copyWithZone:(struct _NSZone * _Nullable)zone SWIFT_WARN_UNUSED_RESULT;
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
+
+
+SWIFT_CLASS("_TtC14TitanFramework23SegmentUnitControlStyle")
+@interface SegmentUnitControlStyle : NSObject
+- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
+@end
 
 
 SWIFT_CLASS("_TtC14TitanFramework14SystemSettings")
@@ -437,10 +494,10 @@ SWIFT_CLASS("_TtC14TitanFramework16TMKEAGLVideoView")
 
 
 
-@class RTCEAGLVideoView;
+@protocol RTCVideoRenderer;
 
-@interface TMKEAGLVideoView (SWIFT_EXTENSION(TitanFramework)) <RTCEAGLVideoViewDelegate>
-- (void)videoView:(RTCEAGLVideoView * _Nonnull)videoView didChangeVideoSize:(CGSize)size;
+@interface TMKEAGLVideoView (SWIFT_EXTENSION(TitanFramework)) <RTCVideoViewDelegate>
+- (void)videoView:(id <RTCVideoRenderer> _Nonnull)videoView didChangeVideoSize:(CGSize)size;
 @end
 
 
@@ -500,15 +557,6 @@ SWIFT_CLASS("_TtC14TitanFramework14TMKStatsRecord")
 @end
 
 
-SWIFT_CLASS("_TtC14TitanFramework15TMKVideoSession")
-@interface TMKVideoSession : NSObject
-- (nonnull instancetype)init SWIFT_UNAVAILABLE;
-+ (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
-@end
-
-
-
-
 SWIFT_CLASS("_TtC14TitanFramework13TMKVideoTrack")
 @interface TMKVideoTrack : NSObject
 - (nonnull instancetype)init SWIFT_UNAVAILABLE;
@@ -527,6 +575,10 @@ SWIFT_CLASS("_TtC14TitanFramework12TitanManager")
 @interface TitanManager : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
+
+
 
 
 
