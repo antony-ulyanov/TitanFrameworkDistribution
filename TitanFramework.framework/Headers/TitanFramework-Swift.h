@@ -539,6 +539,8 @@ SWIFT_CLASS("_TtC14TitanFramework12TitanManager")
 
 
 
+
+
 @interface UIImagePickerController (SWIFT_EXTENSION(TitanFramework))
 @property (nonatomic, readonly) BOOL shouldAutorotate;
 @property (nonatomic, readonly) UIInterfaceOrientationMask supportedInterfaceOrientations;

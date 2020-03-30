@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.4.26'
+  s.version          = '1.4.21.1'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -20,7 +20,7 @@ TODO: Add long description of the pod here.
   s.author           = { 'antony' => 'rumburu@gmail.com' }
   s.source           = { :git => 'https://github.com/antony-ulyanov/TitanFrameworkDistribution.git', :tag => s.version.to_s }
 
-  s.ios.deployment_target = '10.0'
+  s.ios.deployment_target = '9.2'
   s.swift_version = '4.2'
   
   s.public_header_files = "TitanFramework.framework/Headers/*.h"
@@ -35,10 +35,10 @@ TODO: Add long description of the pod here.
   s.libraries = 'c++'
 
   s.dependency 'GoogleWebRTC', '1.1.20621'
-  s.dependency 'RxAlamofire', '~> 5.1'
-  s.dependency 'RxCocoa', '~> 5.0'
+  s.dependency 'RxAlamofire', '~> 4.3.0'
+  s.dependency 'RxCocoa', '~> 4.5.0'
   s.dependency 'Gloss', '~> 2.0'
-  s.dependency 'Crashlytics'
+  s.dependency 'Crashlytics', '~> 3.12.0'
   s.dependency 'XCGLogger', '~> 6.1.0'
   s.dependency 'SwiftDate', '~> 5.0.13'
   s.dependency 'FontBlaster', '~> 4.1.0'
@@ -47,8 +47,8 @@ TODO: Add long description of the pod here.
   s.dependency 'MBProgressHUD', '~> 1.1.0'
   s.dependency 'IQKeyboardManagerSwift', '~> 6.4.2'
   s.dependency 'FSCalendar', '~> 2.8.0'
-  s.dependency 'InputMask', '~> 4.0.1'
+  s.dependency 'InputMask', '~> 5.0.0'
   s.dependency 'UITextView+Placeholder', '~> 1.3.3'
-  s.dependency 'Mixpanel-swift', '~> 2.6.5'
+  s.dependency 'Mixpanel-swift', '2.6.5'
 end
 
