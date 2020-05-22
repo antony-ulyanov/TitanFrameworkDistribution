@@ -234,7 +234,7 @@ SWIFT_CLASS("_TtC14TitanFramework14ComponentStyle")
 @class UIProgressView;
 
 SWIFT_CLASS("_TtC14TitanFramework21DepositViewController")
-@interface DepositViewController : UIViewController <UIWebViewDelegate>
+@interface DepositViewController : UIViewController
 @property (nonatomic, weak) IBOutlet UIProgressView * _Null_unspecified progressView;
 - (void)viewDidLoad;
 - (void)viewWillAppear:(BOOL)animated;
@@ -262,6 +262,8 @@ SWIFT_CLASS("_TtC14TitanFramework16FoundationStream")
 - (void)stream:(NSStream * _Nonnull)aStream handleEvent:(NSStreamEvent)eventCode;
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 @class NSEntityDescription;
 @class NSManagedObjectContext;
@@ -439,7 +441,6 @@ SWIFT_CLASS("_TtC14TitanFramework8TMKBadge")
 
 SWIFT_CLASS("_TtC14TitanFramework7TMKCall")
 @interface TMKCall : NSObject <RTCPeerConnectionDelegate>
-- (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 - (void)peerConnection:(RTCPeerConnection * _Nonnull)peerConnection didRemoveIceCandidates:(NSArray<RTCIceCandidate *> * _Nonnull)candidates;
 - (void)peerConnectionShouldNegotiate:(RTCPeerConnection * _Nonnull)peerConnection;
 - (void)peerConnection:(RTCPeerConnection * _Nonnull)peerConnection didRemoveStream:(RTCMediaStream * _Nonnull)stream;
@@ -450,6 +451,8 @@ SWIFT_CLASS("_TtC14TitanFramework7TMKCall")
 - (void)peerConnection:(RTCPeerConnection * _Nonnull)peerConnection didGenerateIceCandidate:(RTCIceCandidate * _Nonnull)candidate;
 - (void)peerConnection:(RTCPeerConnection * _Nonnull)peerConnection didOpenDataChannel:(RTCDataChannel * _Nonnull)dataChannel;
 - (void)didSessionRouteChangeWithNotification:(NSNotification * _Nonnull)notification;
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
 @end
 
 

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.5.1-beta'
+  s.version          = '1.5.2-beta'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -48,7 +48,7 @@ TODO: Add long description of the pod here.
   s.dependency 'MBProgressHUD', '~> 1.1.0'
   s.dependency 'IQKeyboardManagerSwift', '~> 6.4.2'
   s.dependency 'FSCalendar', '~> 2.8.0'
-  s.dependency 'InputMask', '~> 5.0.0'
+  s.dependency 'InputMask', '~> 6.0.0'
   s.dependency 'UITextView+Placeholder', '~> 1.3.3'
   s.dependency 'Mixpanel-swift', '2.6.5'
 end
