@@ -248,6 +248,8 @@ SWIFT_CLASS("_TtC14TitanFramework21DepositViewController")
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)coder OBJC_DESIGNATED_INITIALIZER;
 @end
 
+
+
 @class WKWebView;
 @class WKNavigation;
 @class WKNavigationAction;
@@ -345,6 +347,8 @@ SWIFT_CLASS("_TtC14TitanFramework14MultiUnitRuler") SWIFT_AVAILABILITY(ios,intro
 - (nullable instancetype)initWithCoder:(NSCoder * _Nonnull)aDecoder OBJC_DESIGNATED_INITIALIZER;
 - (void)layoutSubviews;
 @end
+
+
 
 
 
@@ -584,6 +588,8 @@ SWIFT_CLASS("_TtC14TitanFramework12TitanManager")
 @interface TitanManager : NSObject
 - (nonnull instancetype)init OBJC_DESIGNATED_INITIALIZER;
 @end
+
+
 
 
 
