@@ -540,12 +540,20 @@ SWIFT_CLASS("_TtC14TitanFramework27TMKNotificationSettingsItem")
 
 
 SWIFT_CLASS("_TtC14TitanFramework10TMKPatient")
-@interface TMKPatient : TMKCacheable
+@interface TMKPatient : NSObject <NSCoding>
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
+- (nonnull instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
 @end
 
 
 SWIFT_CLASS("_TtC14TitanFramework9TMKPerson")
-@interface TMKPerson : TMKCacheable
+@interface TMKPerson : NSObject <NSCoding>
+- (nonnull instancetype)init SWIFT_UNAVAILABLE;
++ (nonnull instancetype)new SWIFT_DEPRECATED_MSG("-init is unavailable");
+- (nonnull instancetype)initWithCoder:(NSCoder * _Nonnull)decoder OBJC_DESIGNATED_INITIALIZER;
+- (void)encodeWithCoder:(NSCoder * _Nonnull)coder;
 @end
 
 
