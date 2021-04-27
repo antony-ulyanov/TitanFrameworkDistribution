@@ -48,8 +48,7 @@ TODO: Add long description of the pod here.
   s.dependency 'FSCalendar', '~> 2.8.0'
   s.dependency 'InputMask', '~> 6.0.0'
   s.dependency 'UITextView+Placeholder', '~> 1.3.3'
-  s.dependency 'Mixpanel-swift', '2.6.5'  
-  s.dependency 'YooKassaPayments', '5.3.0'
+  s.dependency 'Mixpanel-swift', '2.6.5'    
   
 end
 
