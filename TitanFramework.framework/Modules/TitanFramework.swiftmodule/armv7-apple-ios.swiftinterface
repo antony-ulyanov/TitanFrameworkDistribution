@@ -1,0 +1,2478 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.3.2 effective-4.2 (swiftlang-1200.0.45 clang-1200.0.32.28)
+// swift-module-flags: -target armv7-apple-ios10.0 -enable-objc-interop -enable-library-evolution -swift-version 4.2 -enforce-exclusivity=checked -Onone -module-name TitanFramework
+import AVFoundation
+import Alamofire
+import CallKit
+import CommonCrypto
+import CoreData
+import CoreFoundation
+import Dispatch
+import FSCalendar
+import FontBlaster
+import Foundation
+import Gloss
+import IQKeyboardManagerSwift
+import InputMask
+import MBProgressHUD
+import MessageUI
+import Mixpanel
+import MobileCoreServices
+import Photos
+import PushKit
+import QuartzCore
+import RxAlamofire
+import RxCocoa
+import RxRelay
+import RxSwift
+import Security
+import SnapKit
+import StoreKit
+import Swift
+import SwiftDate
+@_exported import TitanFramework
+import UIKit
+import UITextView_Placeholder
+import UserNotifications
+import Validator
+import WebKit
+import WebRTC
+import XCGLogger
+import YooKassaPayments
+import zlib
+extension UIColor {
+  public enum Lightness {
+    case lightness(scalingFactor: Swift.Double)
+    case light
+    case lighter
+    case lightest
+    case white
+  }
+  public enum Darkness {
+    case darkness(Swift.Double)
+    case dark
+    case darker
+    case darkest
+    case black
+  }
+  public func shade(_ lightness: UIKit.UIColor.Lightness) -> UIKit.UIColor
+  public func shade(_ darkness: UIKit.UIColor.Darkness) -> UIKit.UIColor
+}
+public struct ChatSession : Gloss.JSONDecodable {
+  public init(id: Swift.String!, state: TitanFramework.ChatState!, _ members: [TitanFramework.ChatMember]? = nil, _ files: [TitanFramework.File]? = nil)
+  public init?(json: Gloss.JSON)
+}
+extension UIImage {
+  public convenience init?(color: UIKit.UIColor, size: CoreGraphics.CGSize = CGSize(width: 1, height: 1))
+  public func maskWithColor(color: UIKit.UIColor) -> UIKit.UIImage?
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class TMKPatient : ObjectiveC.NSObject, Foundation.NSCoding {
+  public var id: Swift.String!
+  public var personId: Swift.String?
+  public var balance: Swift.Double
+  public var heartRateMin: Swift.Int
+  public var heartRateMax: Swift.Int
+  public var heartRateNorm: Swift.Int
+  public var person: TitanFramework.TMKPerson!
+  @objc required public init(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  public func getPerson() -> TitanFramework.TMKPerson
+  public func getBalanceString() -> Swift.String
+  @objc deinit
+}
+public enum QueueType : Swift.String {
+  case adult
+  case child
+  case other
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct QueueShort : Gloss.JSONDecodable {
+  public var id: Swift.String
+  public var type: TitanFramework.QueueType
+  public var name: Swift.String
+  public init?(json: Gloss.JSON)
+}
+@objc public class TMKSchedule : ObjectiveC.NSObject {
+  public var id: Swift.String
+  public var date: Foundation.Date
+  public var vacantSlots: Swift.Int
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol TMKClient {
+  var currentPatient: TitanFramework.TMKPatient? { get set }
+  func isLoggedIn() -> Swift.Bool
+  func login(deviceId: Swift.String?, token: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func updateEsiaPatient(birthday: Foundation.Date?, phone: Swift.String?, code: Swift.String?, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func endRemoteCall(appointmentId: Swift.Int, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func reloginUsingDeviceIdAndToken(onSuccess: @escaping () -> (), onNotLoggedIn: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func generateToken(for deviceId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func getToken() -> Swift.String?
+  func setToken(_ token: Swift.String?)
+  func restorePassword(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func register(id: Swift.String?, email: Swift.String?, phone: Swift.String?, sex: TitanFramework.TMKSex?, password: Swift.String?, birthday: Foundation.Date?, lastName: Swift.String?, firstName: Swift.String?, middleName: Swift.String?, promotionId: Swift.String?, confirmationCode: Swift.String?, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func checkAvailability(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func checkAvailability(phone: Swift.String, onSuccess: @escaping (Swift.Bool, [TitanFramework.TMKPatientSecureAccountDescription]?) -> (), onError: @escaping (Swift.String) -> ())
+  func requestConfirmationCode(phone: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func updateSex(newProfile: TitanFramework.TMKPerson, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func updateEmail(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func updatePhone(phone: Swift.String, code: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func updatePassword(oldPassword: Swift.String, newPassword: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func newPassword(forPatientId patientId: Swift.String, confirmationCode: Swift.String, newPassword: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func uploadProfilePicture(data: Foundation.Data, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  func loadNotificationSettings(onSuccess: @escaping (TitanFramework.TMKNotificationSettings) -> (), onError: @escaping (Swift.String) -> ())
+  func saveNotificationSettings(notificationSettings: TitanFramework.TMKNotificationSettings, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func checkConfirmationCode(phone: Swift.String, code: Swift.String, onSuccess: @escaping (Swift.String?) -> (), onError: @escaping (Swift.String) -> ())
+  func checkConfirmationCode(phone: Swift.String, code: Swift.String, patientId: Swift.String?, onSuccess: @escaping (Swift.String?) -> (), onError: @escaping (Swift.String) -> ())
+  func logout(onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func loadCurrentPatient(onSuccess: ((TitanFramework.TMKPatient) -> ())?, onError: ((Swift.String) -> ())?)
+  func loadFile(byId fileId: Swift.String, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  func loadThumbnail(byId fileId: Swift.String, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  func uploadFile(data: Foundation.Data, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  func getFileList(onSuccess: @escaping ([TitanFramework.TMKFile]) -> (), onError: @escaping (Swift.String) -> ())
+  func deleteFile(byId fileId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func deleteUserPhoto(byId personId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func addToDocuments(fileId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func getImage(withId fileId: Swift.String?, placeholder: UIKit.UIImage?, thumbSize: CoreGraphics.CGFloat?, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (UIKit.UIImage) -> (), onError: @escaping (Swift.String) -> ()) -> UIKit.UIImage?
+  func sendAPNSTokens()
+  func sendAPNSTokens(onSuccess: @escaping () -> ())
+  func sendAPNSToken(_ type: TitanFramework.PushType, _ token: Swift.String?, onSuccess: @escaping () -> ())
+  func findDoctor(filter: Swift.String?, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, sort: [TitanFramework.TMKSortOrder]?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKDoctor>) -> (), onError: @escaping (Swift.String) -> ())
+  func getDoctor(byId: Swift.String, onSuccess: @escaping (TitanFramework.TMKDoctor) -> (), onError: @escaping (Swift.String) -> ())
+  func getFavouriteDoctors(onSuccess: @escaping ([Swift.String]) -> (), onError: @escaping (Swift.String) -> ())
+  func addFavouriteDoctor(doctorId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func removeFavouriteDoctor(doctorId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func getDoctorSchedules(forDoctorId doctorId: Swift.String, startingFrom dateFrom: Foundation.Date, until dateTo: Foundation.Date, onSuccess: @escaping ([TitanFramework.TMKSchedule]) -> (), onError: @escaping (Swift.String) -> ())
+  func getSlots(forSchedule schedule: TitanFramework.TMKSchedule, onSuccess: @escaping ([TitanFramework.TMKScheduleSlot]) -> (), onError: @escaping (Swift.String) -> ())
+  func addReview(doctorId: Swift.String, appointmentId: Swift.String, rating: Swift.Int, comment: Swift.String?, onSuccess: @escaping (TitanFramework.TMKReview) -> (), onError: @escaping (Swift.String) -> ())
+  func getReviews(forDoctorId doctorId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  func getReviewsForCurrentUser(onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  func getCatalogValues(catalogName: Swift.String, onSuccess: @escaping ([Swift.String]) -> (), onError: @escaping (Swift.String) -> ())
+  func getDutyPrice(onSuccess: @escaping (TitanFramework.TMKDutyPrice?, TitanFramework.TMKDutyPrice?) -> (), onError: @escaping (Swift.String) -> ())
+  func getAppointmentList(state: TitanFramework.TMKAppointmentState, dateStart: Foundation.Date, dateEnd: Foundation.Date, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKAppointment>) -> (), onError: @escaping (Swift.String) -> ())
+  func getAppointment(appointmentId: Swift.String, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  func getAppointmentsByStates(states: [TitanFramework.TMKAppointmentState], dateStart: Foundation.Date, dateEnd: Foundation.Date, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKAppointment>) -> (), onError: @escaping (Swift.String) -> ())
+  func cancelAppointment(appointmentId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func getChatHistory(chatId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKChatMessage]) -> (), onError: @escaping (Swift.String) -> ())
+  func getChatHistoryByPage(chatId: Swift.String, page: Swift.Int, onSuccess: @escaping ([TitanFramework.TMKChatMessage], Swift.Int) -> (), onError: @escaping (Swift.String) -> ())
+  func cacheGet(_ kind: Swift.String, withId: Swift.String) -> Any?
+  func cachePut(_ kind: Swift.String, id: Swift.String, value: Any?)
+  func enqueueAppointmentOnDuty(ageGroup: TitanFramework.TMKAgeGroup, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  func makeAppointment(slotId: Swift.String, isChild: Swift.Bool?, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String, TitanFramework.MakeAppointmentError?) -> ())
+  func createInvoice(forAmount amount: Swift.Double, onSuccess: @escaping (TitanFramework.TMKInvoice) -> (), onError: @escaping (Swift.String) -> ())
+  func createInvoice(forAmount amount: Swift.Double, _ appInvoiceId: Swift.Int?, onSuccess: @escaping (TitanFramework.TMKInvoice) -> (), onError: @escaping (Swift.String) -> ())
+  func getInvoiceYandexKassa(invoiceId: Swift.String, onSuccess: @escaping (TitanFramework.TMKYandexKassaParams) -> (), onError: @escaping (Swift.String) -> ())
+  func payFromDeposit(invoiceId: Swift.String, amount: Swift.Double, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  func getPromocodes(onSuccess: @escaping ([TitanFramework.TMKPromocode]) -> (), onError: @escaping (Swift.String) -> ())
+  func getPromocode(byCode code: Swift.String, onSuccess: @escaping (TitanFramework.TMKPromocode) -> (), onError: @escaping (Swift.String) -> ())
+  func isValid(email: Swift.String) -> Swift.Bool
+  func getWSAddressCall() -> Swift.String
+  func getWSAddressChat() -> Swift.String
+  func getDeviceId() -> Swift.String?
+  func setDeviceId(_ deviceId: Swift.String?)
+  func getVoipToken() -> Swift.String?
+  func setVoipToken(_ token: Swift.String?)
+  func getPushToken() -> Swift.String?
+  func setPushToken(_ token: Swift.String?)
+  func sendHeartRateState(date: Foundation.Date, heartRate: Swift.Int, condition: Swift.Int, rrIntervals: [Swift.Float])
+  func sendLocation(date: Foundation.Date, longitude: Swift.Double, latitude: Swift.Double)
+  func sendUserStatus(date: Foundation.Date, status: Swift.Bool)
+  func loadHeartThresholds(onSuccess: @escaping (Swift.Int, Swift.Int) -> (), onError: @escaping (Swift.String) -> ())
+  func getCancelMessage(id: Swift.String, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+}
+public protocol TitanDelegate : AnyObject {
+  func trackEvent(_ event: TitanFramework.TrackedEventsExternal)
+}
+extension String {
+  public func localized() -> Swift.String
+  public func localizedWithFile() -> Swift.String
+  public func localizedWithInternalFile() -> Swift.String
+}
+public enum TMKChatSessionError : Swift.Error {
+  case NotConnected
+  public static func == (a: TitanFramework.TMKChatSessionError, b: TitanFramework.TMKChatSessionError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum TMKChatSessionState {
+  case active
+  case notActive
+  case finished
+  case cancelled
+  public static func == (a: TitanFramework.TMKChatSessionState, b: TitanFramework.TMKChatSessionState) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class TMKChatSession : ObjectiveC.NSObject {
+  public var id: Swift.String
+  public var state: TitanFramework.ChatState!
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers open class MonthYearPickerView : UIKit.UIControl {
+  open var date: Foundation.Date {
+    get
+    set(value)
+  }
+  open var calendar: Foundation.Calendar {
+    get
+    set(value)
+  }
+  open var locale: Foundation.Locale? {
+    get
+    set(value)
+  }
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  open func setDate(_ date: Foundation.Date, animated: Swift.Bool)
+  @objc deinit
+}
+extension MonthYearPickerView : UIKit.UIPickerViewDelegate {
+  @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, didSelectRow row: Swift.Int, inComponent component: Swift.Int)
+}
+extension MonthYearPickerView : UIKit.UIPickerViewDataSource {
+  @objc dynamic public func numberOfComponents(in pickerView: UIKit.UIPickerView) -> Swift.Int
+  @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, numberOfRowsInComponent component: Swift.Int) -> Swift.Int
+  @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, titleForRow row: Swift.Int, forComponent component: Swift.Int) -> Swift.String?
+}
+public enum TMKChatMessageType : Swift.String {
+  case MESSAGE
+  case JOIN
+  case LEAVE
+  case FINISH
+  case REPORT
+  case ERROR
+  case APPOINTMENT_ACTIVITED
+  case APPOINTMENT_CANCELLED
+  case VIDEO_CALL_STARTED
+  case VIDEO_CALL_ACCEPTED
+  case VIDEO_CALL_CANCELLED
+  case VIDEO_CALL_DECLINED
+  case VIDEO_CALL_IGNORED
+  case VIDEO_CALL_ENDED
+  case VIDEO_CALL_ERROR
+  case UNKNOWN
+  case ACCEPT_AUDIO
+  case ACCEPT_VIDEO
+  case NO_ACCESS_TO_CAMERA
+  case NO_ACCESS_TO_MICROPHONE
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TMKChatMessageState {
+  case received
+  case sending
+  case sent
+  case delivered
+  case read
+  public static func == (a: TitanFramework.TMKChatMessageState, b: TitanFramework.TMKChatMessageState) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_hasMissingDesignatedInitializers public class TMKChatMessage : ObjectiveC.NSObject {
+  public var id: Swift.String
+  public var senderId: Swift.String?
+  public var isLocal: Swift.Bool
+  public var type: TitanFramework.TMKChatMessageType
+  public var timestamp: Foundation.Date
+  public var text: Swift.String
+  public var attachments: [TitanFramework.TMKFile]
+  public var state: TitanFramework.TMKChatMessageState
+  public var progress: Swift.Double
+  public var duration: Swift.Int?
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol SSLTrustValidator {
+  func isValid(_ trust: Security.SecTrust, domain: Swift.String?) -> Swift.Bool
+}
+open class SSLCert {
+  public init(data: Foundation.Data)
+  public init(key: Security.SecKey)
+  @objc deinit
+}
+open class SSLSecurity : TitanFramework.SSLTrustValidator {
+  public var validatedDN: Swift.Bool
+  public var validateEntireChain: Swift.Bool
+  public convenience init(usePublicKeys: Swift.Bool = false)
+  public init(certs: [TitanFramework.SSLCert], usePublicKeys: Swift.Bool)
+  open func isValid(_ trust: Security.SecTrust, domain: Swift.String?) -> Swift.Bool
+  public func extractPublicKey(_ data: Foundation.Data) -> Security.SecKey?
+  public func extractPublicKey(_ cert: Security.SecCertificate, policy: Security.SecPolicy) -> Security.SecKey?
+  public func certificateChain(_ trust: Security.SecTrust) -> [Foundation.Data]
+  public func publicKeyChain(_ trust: Security.SecTrust) -> [Security.SecKey]
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class BundleUtil : ObjectiveC.NSObject {
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol MimasManagerDelegate {
+  func didReceiveDoctorCall(_ appointmentId: Swift.String?)
+}
+@_hasMissingDesignatedInitializers public class TMKDateFormatter {
+  public static var timeOnlyTemplate: Swift.String
+  public static var timeWithSecondsTemplate: Swift.String
+  public static var utcRegion: SwiftDate.Region
+  public static func date(from string: Swift.String) -> Foundation.Date?
+  public static func parseTime(_ timeAsString: Swift.String) -> SwiftDate.DateInRegion
+  public static func string(from date: Foundation.Date) -> Swift.String
+  public static func utcString(from date: Foundation.Date) -> Swift.String
+  @objc deinit
+}
+extension BehaviorRelay where Element : Swift.RangeReplaceableCollection {
+  final public func remove(at index: Element.Index)
+}
+public class TMKReview {
+  public var patientName: Swift.String
+  public var appointmentId: Swift.String
+  public var rating: Swift.Int
+  public var comment: Swift.String?
+  public var date: Foundation.Date?
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+}
+extension UIImage {
+  public func fixOrientation() -> UIKit.UIImage?
+}
+public struct File : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+public enum TMKSex : Swift.String {
+  case male
+  case female
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class TMKPerson : ObjectiveC.NSObject, Foundation.NSCoding {
+  public var id: Swift.String!
+  public var firstName: Swift.String
+  public var middleName: Swift.String
+  public var lastName: Swift.String?
+  public var sex: TitanFramework.TMKSex?
+  public var photoId: Swift.String?
+  public var phone: Swift.String?
+  public var email: Swift.String?
+  public var birthday: Foundation.Date?
+  public var username: Swift.String?
+  public var isOnline: Swift.Bool?
+  public var isAnonymous: Swift.Bool
+  public var loginDateTime: Foundation.Date?
+  public static var DutyPersonId: Swift.String?
+  @objc required public init(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  public func getShortName() -> Swift.String
+  public func getFullName() -> Swift.String
+  @objc deinit
+}
+@objc public class TMKStatsRecord : ObjectiveC.NSObject {
+  public init(fromDictionary dictionary: [Swift.String : Swift.String], withPreviousValue previousValue: TitanFramework.TMKStatsRecord?)
+  public func getImmediateQoS() -> Swift.Double
+  @objc deinit
+  @objc override dynamic public init()
+}
+public class ResourcesError : Swift.Error {
+  public init(_ message: Swift.String?)
+  @objc deinit
+}
+extension NSNotification.Name {
+  public static var TMKUserLoggedIn: Foundation.Notification.Name
+  public static var TMKUserProfileChanged: Foundation.Notification.Name
+  public static var TMKAppointmentChanged: Foundation.Notification.Name
+  public static var TMKDoctorCallStarted: Foundation.Notification.Name
+  public static var TMKRegisterFromGuideNotification: Foundation.Notification.Name
+  public static var TMKPartnerThemeChanged: Foundation.Notification.Name
+  public static var TMKEndCall: Foundation.Notification.Name
+  public static var TMKCallTypeChanged: Foundation.Notification.Name
+}
+extension String {
+  public var doubleValue: Swift.Double? {
+    get
+  }
+  public var integerValue: Swift.Int? {
+    get
+  }
+  public var floatValue: Swift.Float? {
+    get
+  }
+}
+public struct ChatMember : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+public enum TMKKeyChainKey : Swift.String {
+  case UseTestServer
+  case SessionId
+  case DeviceId
+  case LoginToken
+  case DR_WelcomeGuideCompleted
+  case pushToken
+  case voipToken
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@_hasMissingDesignatedInitializers public class TMKKeyChain {
+  public class func delete(key: TitanFramework.TMKKeyChainKey)
+  public class func delete(key: Swift.String)
+  public class func save(key: TitanFramework.TMKKeyChainKey, data: Foundation.Data)
+  public class func load(key: TitanFramework.TMKKeyChainKey) -> Foundation.Data?
+  public class func save(key: Swift.String, data: Foundation.Data)
+  public class func load(key: Swift.String) -> Foundation.Data?
+  public class func createUniqueID() -> Swift.String
+  @objc deinit
+}
+extension Data {
+  public init<T>(from value: T)
+  public func to<T>(type: T.Type) -> T
+}
+@objc @_inheritsConvenienceInitializers open class BaseTableViewController : UIKit.UITableViewController {
+  @objc override dynamic open func viewDidLoad()
+  @objc override dynamic open func viewWillAppear(_ animated: Swift.Bool)
+  @objc override dynamic open func viewWillDisappear(_ animated: Swift.Bool)
+  @objc deinit
+  @objc override dynamic public init(style: UIKit.UITableView.Style)
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+public enum TMKAppointmentState : Swift.String {
+  case scheduled
+  case queued
+  case active
+  case finished
+  case cancelled
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class TMKAppointment : TitanFramework.TMKCacheable {
+  public var source: TitanFramework.AppointmentSource!
+  public var state: TitanFramework.TMKAppointmentState
+  public var doctorId: Swift.String?
+  public var patientId: Swift.String?
+  public var ageGroup: TitanFramework.TMKAgeGroup?
+  public var datePlanned: Foundation.Date
+  public var dateUpdated: Foundation.Date
+  public var dateStarted: Foundation.Date?
+  public var dateFinished: Foundation.Date?
+  public var hasReport: Swift.Bool
+  public var isPaid: Swift.Bool
+  public var chatId: Swift.String?
+  public var chatSession: TitanFramework.ChatSession?
+  public var videoSession: TitanFramework.VideoSession?
+  public var invoice: TitanFramework.TMKInvoice?
+  public var review: TitanFramework.TMKReview?
+  public var isFree: Swift.Bool
+  public var queue: TitanFramework.QueueShort?
+  public var newMessageCount: Swift.Int?
+  public var result: Swift.String?
+  public static func fromJsonShort(json: [Swift.String : Any]) -> TitanFramework.TMKAppointment
+  public static func fromJsonFull(json: [Swift.String : Any]) -> TitanFramework.TMKAppointment
+  public func getDoctor() -> TitanFramework.TMKDoctor?
+  @objc deinit
+  required public init(_ id: Swift.String)
+}
+@objc @_hasMissingDesignatedInitializers public class TMKVideoTrack : ObjectiveC.NSObject {
+  public func add(renderer: TitanFramework.TMKEAGLVideoView)
+  public func remove(renderer: TitanFramework.TMKEAGLVideoView)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct Obfuscator {
+  public let value: Swift.String
+  public init(value: Swift.String)
+  public var a: TitanFramework.Obfuscator {
+    get
+  }
+  public var b: TitanFramework.Obfuscator {
+    get
+  }
+  public var c: TitanFramework.Obfuscator {
+    get
+  }
+  public var d: TitanFramework.Obfuscator {
+    get
+  }
+  public var e: TitanFramework.Obfuscator {
+    get
+  }
+  public var f: TitanFramework.Obfuscator {
+    get
+  }
+  public var g: TitanFramework.Obfuscator {
+    get
+  }
+  public var h: TitanFramework.Obfuscator {
+    get
+  }
+  public var i: TitanFramework.Obfuscator {
+    get
+  }
+  public var j: TitanFramework.Obfuscator {
+    get
+  }
+  public var k: TitanFramework.Obfuscator {
+    get
+  }
+  public var l: TitanFramework.Obfuscator {
+    get
+  }
+  public var m: TitanFramework.Obfuscator {
+    get
+  }
+  public var n: TitanFramework.Obfuscator {
+    get
+  }
+  public var o: TitanFramework.Obfuscator {
+    get
+  }
+  public var p: TitanFramework.Obfuscator {
+    get
+  }
+  public var q: TitanFramework.Obfuscator {
+    get
+  }
+  public var r: TitanFramework.Obfuscator {
+    get
+  }
+  public var s: TitanFramework.Obfuscator {
+    get
+  }
+  public var t: TitanFramework.Obfuscator {
+    get
+  }
+  public var u: TitanFramework.Obfuscator {
+    get
+  }
+  public var v: TitanFramework.Obfuscator {
+    get
+  }
+  public var w: TitanFramework.Obfuscator {
+    get
+  }
+  public var x: TitanFramework.Obfuscator {
+    get
+  }
+  public var y: TitanFramework.Obfuscator {
+    get
+  }
+  public var z: TitanFramework.Obfuscator {
+    get
+  }
+  public var A: TitanFramework.Obfuscator {
+    get
+  }
+  public var B: TitanFramework.Obfuscator {
+    get
+  }
+  public var C: TitanFramework.Obfuscator {
+    get
+  }
+  public var D: TitanFramework.Obfuscator {
+    get
+  }
+  public var E: TitanFramework.Obfuscator {
+    get
+  }
+  public var F: TitanFramework.Obfuscator {
+    get
+  }
+  public var G: TitanFramework.Obfuscator {
+    get
+  }
+  public var H: TitanFramework.Obfuscator {
+    get
+  }
+  public var I: TitanFramework.Obfuscator {
+    get
+  }
+  public var J: TitanFramework.Obfuscator {
+    get
+  }
+  public var K: TitanFramework.Obfuscator {
+    get
+  }
+  public var L: TitanFramework.Obfuscator {
+    get
+  }
+  public var M: TitanFramework.Obfuscator {
+    get
+  }
+  public var N: TitanFramework.Obfuscator {
+    get
+  }
+  public var O: TitanFramework.Obfuscator {
+    get
+  }
+  public var P: TitanFramework.Obfuscator {
+    get
+  }
+  public var Q: TitanFramework.Obfuscator {
+    get
+  }
+  public var R: TitanFramework.Obfuscator {
+    get
+  }
+  public var S: TitanFramework.Obfuscator {
+    get
+  }
+  public var T: TitanFramework.Obfuscator {
+    get
+  }
+  public var U: TitanFramework.Obfuscator {
+    get
+  }
+  public var V: TitanFramework.Obfuscator {
+    get
+  }
+  public var W: TitanFramework.Obfuscator {
+    get
+  }
+  public var X: TitanFramework.Obfuscator {
+    get
+  }
+  public var Y: TitanFramework.Obfuscator {
+    get
+  }
+  public var Z: TitanFramework.Obfuscator {
+    get
+  }
+  public var dot: TitanFramework.Obfuscator {
+    get
+  }
+  public var n0: TitanFramework.Obfuscator {
+    get
+  }
+  public var n1: TitanFramework.Obfuscator {
+    get
+  }
+  public var n2: TitanFramework.Obfuscator {
+    get
+  }
+  public var n3: TitanFramework.Obfuscator {
+    get
+  }
+  public var n4: TitanFramework.Obfuscator {
+    get
+  }
+  public var n5: TitanFramework.Obfuscator {
+    get
+  }
+  public var n6: TitanFramework.Obfuscator {
+    get
+  }
+  public var n7: TitanFramework.Obfuscator {
+    get
+  }
+  public var n8: TitanFramework.Obfuscator {
+    get
+  }
+  public var n9: TitanFramework.Obfuscator {
+    get
+  }
+}
+public class TMKSpeciality {
+  public var id: Swift.String?
+  public var name: Swift.String
+  public init(id: Swift.String, name: Swift.String)
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+}
+public class TMKInvoice {
+  public var id: Swift.String
+  public var externalId: Swift.String?
+  public var created: Foundation.Date
+  public var amountTotal: Swift.Double
+  public var amountPaid: Swift.Double
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class MimasManager : ObjectiveC.NSObject {
+  public var api: TitanFramework.APIService
+  public var delegate: TitanFramework.MimasManagerDelegate!
+  public static var sharedInstance: TitanFramework.MimasManager
+  public func initialize(_ window: UIKit.UIWindow?, _ application: UIKit.UIApplication, _ theme: TitanFramework.TMKTheme, _ rootViewController: UIKit.UIViewController? = nil)
+  public func initPush()
+  public func initNotifications()
+  public func getChatScreen(_ appointmentId: Swift.String) -> UIKit.UIViewController
+  public func setPushDelegate(_ subDelegate: PushKit.PKPushRegistryDelegate)
+  @available(iOS 10.0, *)
+  public func getNotificationCategory() -> UserNotifications.UNNotificationCategory
+  @available(iOS 10.0, *)
+  public func processUserNotification(response: UserNotifications.UNNotificationResponse, completionHandler: () -> Swift.Void)
+  @available(iOS 10.0, *)
+  public func setNotificationDelegate(_ subDelegate: UserNotifications.UNUserNotificationCenterDelegate)
+  public func handlePushNotification(_ userInfo: [Swift.AnyHashable : Any])
+  public func processCallStartNotification(_ notification: UIKit.UILocalNotification)
+  public func requestPermissions()
+  public func setLogLevel(_ level: XCGLogger.XCGLogger.Level)
+  public func setRootViewController(_ vc: UIKit.UIViewController)
+  public func registerRemoteNotifications(_ deviceToken: Foundation.Data)
+  public func sendDoctorCallStarted(appointmentId: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol DutyDoctorDelegate {
+  func startConversation()
+  func showDutyDoctors()
+}
+public class TMKClientRest : TitanFramework.TMKClient, TitanFramework.WebSocketDelegate {
+  public var currentPatient: TitanFramework.TMKPatient? {
+    get
+    set(value)
+  }
+  public init(_ address: Swift.String)
+  public func getWSAddressCall() -> Swift.String
+  public func getWSAddressChat() -> Swift.String
+  public func getWSAddressStatus() -> Swift.String
+  public func getCookieDomain() -> Swift.String
+  public func cacheGet(_ kind: Swift.String, withId id: Swift.String) -> Any?
+  public func cachePut(_ kind: Swift.String, id: Swift.String, value: Any?)
+  public func getDeviceId() -> Swift.String?
+  public func setDeviceId(_ deviceId: Swift.String?)
+  public func getVoipToken() -> Swift.String?
+  public func setVoipToken(_ token: Swift.String?)
+  public func getPushToken() -> Swift.String?
+  public func setPushToken(_ token: Swift.String?)
+  public func getToken() -> Swift.String?
+  public func setToken(_ token: Swift.String?)
+  public func request(_ url: Alamofire.URLConvertible, _ isSaveSessionId: Swift.Bool? = false, method: Alamofire.HTTPMethod, parameters: Alamofire.Parameters?, _ isNeedAuth: Swift.Bool? = true, onSuccess: @escaping (Any?) -> (), onError: @escaping (Swift.String, Alamofire.DataResponse<Any, Alamofire.AFError>?) -> ())
+  public func request(_ url: Alamofire.URLConvertible, _ isSaveSessionId: Swift.Bool? = false, method: Alamofire.HTTPMethod, parameters: Alamofire.Parameters?, headers: Alamofire.HTTPHeaders?, encoding: Alamofire.ParameterEncoding, _ isNeedAuth: Swift.Bool? = true, onSuccess: @escaping (Any?) -> (), onError: @escaping (Swift.String, Alamofire.DataResponse<Any, Alamofire.AFError>?) -> ())
+  public func sendAPNSToken(_ type: TitanFramework.PushType, _ token: Swift.String?, onSuccess: @escaping () -> ())
+  public func sendAPNSTokens(onSuccess: @escaping () -> ())
+  public func sendAPNSTokens()
+  public func findDoctor(filter: Swift.String?, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, sort: [TitanFramework.TMKSortOrder]?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKDoctor>) -> (), onError: @escaping (Swift.String) -> ())
+  public func getDoctor(byId doctorId: Swift.String, onSuccess: @escaping (TitanFramework.TMKDoctor) -> (), onError: @escaping (Swift.String) -> ())
+  public func getFavouriteDoctors(onSuccess: @escaping ([Swift.String]) -> (), onError: @escaping (Swift.String) -> ())
+  public func addFavouriteDoctor(doctorId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func removeFavouriteDoctor(doctorId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func getDoctorSchedules(forDoctorId doctorId: Swift.String, startingFrom dateFrom: Foundation.Date, until dateTo: Foundation.Date, onSuccess: @escaping ([TitanFramework.TMKSchedule]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getDutyPrice(onSuccess: @escaping (TitanFramework.TMKDutyPrice?, TitanFramework.TMKDutyPrice?) -> (), onError: @escaping (Swift.String) -> ())
+  public func getSlots(forSchedule schedule: TitanFramework.TMKSchedule, onSuccess: @escaping ([TitanFramework.TMKScheduleSlot]) -> (), onError: @escaping (Swift.String) -> ())
+  public func restorePassword(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func register(id: Swift.String?, email: Swift.String?, phone: Swift.String?, sex: TitanFramework.TMKSex?, password: Swift.String?, birthday: Foundation.Date?, lastName: Swift.String?, firstName: Swift.String?, middleName: Swift.String?, promotionId: Swift.String?, confirmationCode: Swift.String?, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func reloginUsingDeviceIdAndToken(onSuccess: @escaping () -> (), onNotLoggedIn: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(deviceId: Swift.String?, token: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func logout(onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func generateToken(for deviceId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func loadCurrentPatient(onSuccess: ((TitanFramework.TMKPatient) -> ())?, onError: ((Swift.String) -> ())?)
+  public func isLoggedIn() -> Swift.Bool
+  public func loadFile(byId fileId: Swift.String, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func loadThumbnail(byId fileId: Swift.String, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func uploadFile(data: Foundation.Data, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func getFileList(onSuccess: @escaping ([TitanFramework.TMKFile]) -> (), onError: @escaping (Swift.String) -> ())
+  public func deleteFile(byId fileId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func deleteUserPhoto(byId personId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func addToDocuments(fileId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func getImage(withId fileId: Swift.String?, placeholder: UIKit.UIImage?, thumbSize: CoreGraphics.CGFloat?, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (UIKit.UIImage) -> (), onError: @escaping (Swift.String) -> ()) -> UIKit.UIImage?
+  public func getAppointmentsByStates(states: [TitanFramework.TMKAppointmentState], dateStart: Foundation.Date, dateEnd: Foundation.Date, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKAppointment>) -> (), onError: @escaping (Swift.String) -> ())
+  public func getAppointmentList(state: TitanFramework.TMKAppointmentState, dateStart: Foundation.Date, dateEnd: Foundation.Date, pageNumber: Swift.Int32?, pageSize: Swift.Int32?, onSuccess: @escaping (TitanFramework.TMKPageView<TitanFramework.TMKAppointment>) -> (), onError: @escaping (Swift.String) -> ())
+  public func enqueueAppointmentOnDuty(ageGroup: TitanFramework.TMKAgeGroup, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func makeAppointment(slotId: Swift.String, isChild: Swift.Bool?, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String, TitanFramework.MakeAppointmentError?) -> ())
+  public func getAppointment(appointmentId: Swift.String, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func getCatalogValues(catalogName: Swift.String, onSuccess: @escaping ([Swift.String]) -> (), onError: @escaping (Swift.String) -> ())
+  public func cancelAppointment(appointmentId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func getChatHistory(chatId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKChatMessage]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getChatHistoryByPage(chatId: Swift.String, page: Swift.Int, onSuccess: @escaping ([TitanFramework.TMKChatMessage], Swift.Int) -> (), onError: @escaping (Swift.String) -> ())
+  public func createInvoice(forAmount amount: Swift.Double, onSuccess: @escaping (TitanFramework.TMKInvoice) -> (), onError: @escaping (Swift.String) -> ())
+  public func createInvoice(forAmount amount: Swift.Double, _ appInvoiceId: Swift.Int?, onSuccess: @escaping (TitanFramework.TMKInvoice) -> (), onError: @escaping (Swift.String) -> ())
+  public func payFromDeposit(invoiceId: Swift.String, amount: Swift.Double, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func getInvoiceYandexKassa(invoiceId: Swift.String, onSuccess: @escaping (TitanFramework.TMKYandexKassaParams) -> (), onError: @escaping (Swift.String) -> ())
+  public func getPromocode(byCode code: Swift.String, onSuccess: @escaping (TitanFramework.TMKPromocode) -> (), onError: @escaping (Swift.String) -> ())
+  public func getPromocodes(onSuccess: @escaping ([TitanFramework.TMKPromocode]) -> (), onError: @escaping (Swift.String) -> ())
+  public func checkAvailability(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func checkAvailability(phone: Swift.String, onSuccess: @escaping (Swift.Bool, [TitanFramework.TMKPatientSecureAccountDescription]?) -> (), onError: @escaping (Swift.String) -> ())
+  public func requestConfirmationCode(phone: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func checkConfirmationCode(phone: Swift.String, code: Swift.String, patientId: Swift.String?, onSuccess: @escaping (Swift.String?) -> (), onError: @escaping (Swift.String) -> ())
+  public func checkConfirmationCode(phone: Swift.String, code: Swift.String, onSuccess: @escaping (Swift.String?) -> (), onError: @escaping (Swift.String) -> ())
+  public func updateSex(newProfile: TitanFramework.TMKPerson, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func updateEmail(email: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func updatePhone(phone: Swift.String, code: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func uploadProfilePicture(data: Foundation.Data, withName fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func loadNotificationSettings(onSuccess: @escaping (TitanFramework.TMKNotificationSettings) -> (), onError: @escaping (Swift.String) -> ())
+  public func saveNotificationSettings(notificationSettings: TitanFramework.TMKNotificationSettings, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func updatePassword(oldPassword: Swift.String, newPassword: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func newPassword(forPatientId patientId: Swift.String, confirmationCode: Swift.String, newPassword: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func addReview(doctorId: Swift.String, appointmentId: Swift.String, rating: Swift.Int, comment: Swift.String?, onSuccess: @escaping (TitanFramework.TMKReview) -> (), onError: @escaping (Swift.String) -> ())
+  public func getReviews(forDoctorId doctorId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getReviewsForCurrentUser(onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  public func isValid(email: Swift.String) -> Swift.Bool
+  public func websocketDidConnect(socket: TitanFramework.WebSocketClient)
+  public func websocketDidDisconnect(socket: TitanFramework.WebSocketClient, error: Swift.Error?)
+  public func websocketDidReceiveMessage(socket: TitanFramework.WebSocketClient, text: Swift.String)
+  public func websocketDidReceiveData(socket: TitanFramework.WebSocketClient, data: Foundation.Data)
+  public func sendHeartRateState(date: Foundation.Date, heartRate: Swift.Int, condition: Swift.Int, rrIntervals: [Swift.Float])
+  public func sendLocation(date: Foundation.Date, longitude: Swift.Double, latitude: Swift.Double)
+  public func sendUserStatus(date: Foundation.Date, status: Swift.Bool)
+  public func loadHeartThresholds(onSuccess: @escaping (Swift.Int, Swift.Int) -> (), onError: @escaping (Swift.String) -> ())
+  public func updateEsiaPatient(birthday: Foundation.Date?, phone: Swift.String?, code: Swift.String?, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func endRemoteCall(appointmentId: Swift.Int, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func getCancelMessage(id: Swift.String, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class DepositViewController : UIKit.UIViewController {
+  public var webView: WebKit.WKWebView!
+  public var onSuccess: (() -> ())?
+  public var onCancel: (() -> ())?
+  public var onDefault: (() -> ())?
+  public var onClose: (() -> ())?
+  @objc @IBOutlet weak public var progressView: UIKit.UIProgressView!
+  public static func show(invoiceId: Swift.String, sender: UIKit.UIViewController, direction: TitanFramework.TrackedEventDirection, onSuccess: (() -> ())?, onCancel: (() -> ())?, onDefault: (() -> ())?, onClose: (() -> ())?)
+  @objc override dynamic public func viewDidLoad()
+  @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @objc override dynamic public func didReceiveMemoryWarning()
+  @objc deinit
+  @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension DepositViewController : WebKit.WKNavigationDelegate {
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didCommit navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, decidePolicyFor navigationAction: WebKit.WKNavigationAction, decisionHandler: @escaping (WebKit.WKNavigationActionPolicy) -> Swift.Void)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFinish navigation: WebKit.WKNavigation!)
+  @objc dynamic public func webView(_ webView: WebKit.WKWebView, didFail navigation: WebKit.WKNavigation!, withError error: Swift.Error)
+}
+extension DepositViewController : YooKassaPayments.TokenizationModuleOutput {
+  public func tokenizationModule(_ module: YooKassaPayments.TokenizationModuleInput, didTokenize token: YooKassaPayments.Tokens, paymentMethodType: YooKassaPayments.PaymentMethodType)
+  public func didFinish(on module: YooKassaPayments.TokenizationModuleInput, with error: YooKassaPayments.YooKassaPaymentsError?)
+  public func didSuccessfullyPassedCardSec(on module: YooKassaPayments.TokenizationModuleInput)
+}
+final public class ObjectAssociation<T> where T : AnyObject {
+  public init(policy: ObjectiveC.objc_AssociationPolicy = .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+  final public subscript(index: Swift.AnyObject) -> T? {
+    get
+    set(newValue)
+  }
+  @objc deinit
+}
+extension UIButton {
+  public func tintImage()
+}
+public enum TrackedEventsExternal {
+  case registerCompleteSuccess
+  case makeAppointment
+  case other(name: Swift.String, value: Any?)
+  case purchase(price: Foundation.NSDecimalNumber, currency: Swift.String, itemName: Swift.String?)
+}
+public struct AES {
+  public static func encrypt(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func decrypt(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func encrypt(_ string: Swift.String, key: Swift.String) -> Swift.String?
+  public static func decrypt(_ string: Swift.String, key: Swift.String) -> Swift.String?
+}
+public struct AuthUserDataForTest : Gloss.JSONDecodable {
+  public var authUserData: TitanFramework.AuthUserData?
+  public init?(json: Gloss.JSON)
+}
+public struct ExternalAuthResult : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+public enum PushType : Swift.String {
+  case voip
+  case push
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class TMKScheduleSlot : ObjectiveC.NSObject {
+  public var id: Swift.String
+  public var date: Foundation.Date
+  public var isVacant: Swift.Bool
+  public init(fromJson json: [Swift.String : Any], for date: Swift.String)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_inheritsConvenienceInitializers public class UserDefaultsState<Type> : TitanFramework.MonitoredState<Type> {
+  public init(_ defaultValue: Type?, key: Swift.String)
+  public func didModify()
+  @objc deinit
+}
+extension Optional {
+  public var isNil: Swift.Bool {
+    get
+  }
+}
+public enum TMKNotificationSettingsReceiver : Swift.String {
+  case EMAIL
+  case SMS
+  case SITE
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct SSLClientCertificateError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String?
+}
+public class SSLClientCertificate {
+  public convenience init(pkcs12Path: Swift.String, password: Swift.String) throws
+  public init(identity: Security.SecIdentity, identityCertificate: Security.SecCertificate)
+  public convenience init(pkcs12Url: Foundation.URL, password: Swift.String) throws
+  public init(pkcs12Url: Foundation.URL, importOptions: CoreFoundation.CFDictionary) throws
+  @objc deinit
+}
+public struct AuthUserData {
+  public var patientId: Swift.String?
+  public var login: Swift.String?
+  public var password: Swift.String?
+  public var firstName: Swift.String?
+  public var lastName: Swift.String?
+  public var middleName: Swift.String?
+  public var phone: Swift.String?
+  public var birthday: Foundation.Date?
+  public var email: Swift.String?
+  public var promoCode: Swift.String?
+  public var productId: Swift.String?
+  public var sendSMSonCreate: Swift.Bool?
+  public var sendEmailOnCreate: Swift.Bool?
+  public var secretKey: Swift.String
+  public init(secretKey: Swift.String)
+}
+@_hasMissingDesignatedInitializers public class APIService {
+  public func test() -> RxSwift.Observable<TitanFramework.Group?>
+  public func getReviews(forDoctorId doctorId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getReviewsForCurrentUser(onSuccess: @escaping ([TitanFramework.TMKReview]) -> (), onError: @escaping (Swift.String) -> ())
+  public func loadFile(fileId: Swift.String, fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func loadThumbnail(fileId: Swift.String, fileName: Swift.String, onProgress: ((Swift.Double, Swift.Int64, Swift.Int64) -> ())!, onSuccess: @escaping (Swift.String) -> (), onError: @escaping (Swift.String) -> ())
+  public func getFileList(onSuccess: @escaping ([TitanFramework.TMKFile]) -> (), onError: @escaping (Swift.String) -> ())
+  @objc deinit
+}
+extension APIService {
+  public func reloginUsingDeviceIdAndToken(onSuccess: @escaping () -> (), onNotLoggedIn: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(token: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(deviceId: Swift.String, token: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(authUserData: TitanFramework.AuthUserData, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(sessionId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func login(login: Swift.String, password: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func logout(onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func sendAPNSToken(_ voipToken: Swift.String? = nil)
+  public func getDeviceId() -> Swift.String?
+  public func setDeviceId(_ deviceId: Swift.String)
+}
+extension APIService {
+  public func getDoctorSchedules(doctorId: Swift.String, onSuccess: @escaping ([TitanFramework.TMKSchedule]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getSlots(forSchedule schedule: TitanFramework.TMKSchedule, onSuccess: @escaping ([TitanFramework.TMKScheduleSlot]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getDoctors(onSuccess: @escaping ([TitanFramework.TMKDoctor]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getDoctors(filter: Swift.String?, specialityIds: [Swift.String], isFreeSlot: Swift.Bool?, onSuccess: @escaping ([TitanFramework.TMKDoctor]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getDoctor(byId doctorId: Swift.String, onSuccess: @escaping (TitanFramework.TMKDoctor) -> (), onError: @escaping (Swift.String) -> ())
+}
+extension APIService {
+  public func getAppointmentsByStates(states: [TitanFramework.TMKAppointmentState], onSuccess: @escaping ([TitanFramework.TMKAppointment]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getAppointmentsByStates(states: [TitanFramework.TMKAppointmentState], dateStart: Foundation.Date, dateEnd: Foundation.Date, onSuccess: @escaping ([TitanFramework.TMKAppointment]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getAppointments(state: TitanFramework.TMKAppointmentState, onSuccess: @escaping ([TitanFramework.TMKAppointment]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getCancelledAppointments(onSuccess: @escaping ([TitanFramework.TMKAppointment]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getFinishedAppointments(onSuccess: @escaping ([TitanFramework.TMKAppointment]) -> (), onError: @escaping (Swift.String) -> ())
+  public func getAppointment(appointmentId: Swift.String, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func enqueueAppointmentOnDuty(ageGroup: TitanFramework.TMKAgeGroup, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func makeAppointment(slotId: Swift.String, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func makeAppointment(slotId: Swift.String, isChild: Swift.Bool?, onSuccess: @escaping (TitanFramework.TMKAppointment) -> (), onError: @escaping (Swift.String) -> ())
+  public func cancelAppointment(appointmentId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+}
+@_hasMissingDesignatedInitializers public class State<Type> {
+  @objc deinit
+}
+public struct ApiErrorMessage : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+  public init?(response: Alamofire.DataResponse<Any, Alamofire.AFError>)
+  public init?(response: Foundation.HTTPURLResponse, data: Foundation.Data)
+  public func isError() -> Swift.Bool
+  public func getErrorMessage() -> Swift.String
+}
+public class TMKFile {
+  public var id: Swift.String
+  public var fileType: Swift.String?
+  public var filename: Swift.String
+  public var mimeType: Swift.String
+  public var size: Swift.Int64
+  public var uploaded: Foundation.Date?
+  public init(id: Swift.String, fileType: Swift.String?, filename: Swift.String, mimeType: Swift.String, size: Swift.Int64, uploaded: Foundation.Date?)
+  public static func fromJson(json: [Swift.String : Any]) -> TitanFramework.TMKFile
+  @objc deinit
+}
+public enum MarkerVerticalAlignment : Swift.Int {
+  case bottom
+  case center
+  case top
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public class Range<T> : ObjectiveC.NSObject {
+  open var location: T
+  open var length: T
+  public init(location: T, length: T)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc override dynamic public var debugDescription: Swift.String {
+    @objc get
+  }
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers public class RangeMarkerType : ObjectiveC.NSObject, Foundation.NSCopying {
+  open var name: Swift.String?
+  open var scale: Swift.Float
+  open var image: UIKit.UIImage?
+  open var labelVisible: Swift.Bool
+  open var size: CoreGraphics.CGSize
+  open var color: UIKit.UIColor
+  open var font: UIKit.UIFont
+  public convenience init(color: UIKit.UIColor, size: CoreGraphics.CGSize, scale: Swift.Float)
+  @objc override dynamic public var description: Swift.String {
+    @objc get
+  }
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum TMKAgeGroup : Swift.String {
+  case adult
+  case children
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+  public init?(rawValue: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers public class TMKDoctor : TitanFramework.TMKCacheable {
+  public var personId: Swift.String?
+  public var isAdult: Swift.Bool
+  public var isChild: Swift.Bool
+  public var isDuty: Swift.Bool
+  public var degreeName: Swift.String?
+  public var comment: Swift.String?
+  public var rating: Swift.Double!
+  public var reviewCount: Swift.Int
+  public var services: [TitanFramework.TMKService]
+  public var primaryService: TitanFramework.TMKService?
+  public var specialties: [TitanFramework.TMKSpeciality]
+  public var refresherCourses: Swift.String?
+  public var education: Swift.String?
+  public var category: Swift.String?
+  public var experience: Swift.Int?
+  public var clinicalInterests: Swift.String?
+  public var certificates: [Swift.String]
+  public var freeSlotDatetime: Foundation.Date?
+  public var person: TitanFramework.TMKPerson!
+  public static var DutyAdult: TitanFramework.TMKDoctor
+  public static var DutyChildren: TitanFramework.TMKDoctor
+  public static func fromJson(json: [Swift.String : Any]?, isShortPresentation: Swift.Bool = false) -> TitanFramework.TMKDoctor?
+  public func getPerson() -> TitanFramework.TMKPerson?
+  public func getDescription() -> Swift.String
+  public static func fromArrayJson(array: [[Swift.String : Any]]?) -> [TitanFramework.TMKDoctor]?
+  @objc deinit
+  required public init(_ id: Swift.String)
+}
+@objc @_inheritsConvenienceInitializers public class TMKNotificationSettings : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  public func getItem(forType type: TitanFramework.TMKNotificationSettingsType) -> TitanFramework.TMKNotificationSettingsItem?
+  public func enable(type: TitanFramework.TMKNotificationSettingsType, forReceiver recevier: TitanFramework.TMKNotificationSettingsReceiver)
+  public func disable(type: TitanFramework.TMKNotificationSettingsType, forReceiver recevier: TitanFramework.TMKNotificationSettingsReceiver)
+  public func clone() -> TitanFramework.TMKNotificationSettings
+  public func equalTo(_ rhs: TitanFramework.TMKNotificationSettings) -> Swift.Bool
+  @objc deinit
+}
+public struct VideoSession : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+@objc public class TMKNotificationSettingsItem : ObjectiveC.NSObject {
+  public var receivers: [TitanFramework.TMKNotificationSettingsReceiver]
+  public init(type: TitanFramework.TMKNotificationSettingsType, receivers: [TitanFramework.TMKNotificationSettingsReceiver])
+  public func enable(for recevier: TitanFramework.TMKNotificationSettingsReceiver)
+  public func disable(for recevier: TitanFramework.TMKNotificationSettingsReceiver)
+  public func getTitle() -> Swift.String
+  public func getReceivers() -> Swift.String
+  public func equalTo(_ rhs: TitanFramework.TMKNotificationSettingsItem) -> Swift.Bool
+  @objc override dynamic public init()
+  @objc deinit
+}
+public enum RangePointerShape : Swift.Int {
+  case triangle
+  case square
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class RangePointerView : UIKit.UIView {
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic public func draw(_ rect: CoreGraphics.CGRect)
+  @objc deinit
+}
+public enum ChatState : Swift.String {
+  case notActive
+  case active
+  case finished
+  case cancelled
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public class TMKYandexKassaParams {
+  public var targetUrl: Swift.String
+  public var shopId: Swift.Int
+  public var scid: Swift.Int
+  public var amount: Swift.Double
+  public var customerNumber: Swift.String
+  public var orderNumber: Swift.String
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class TitanManager : ObjectiveC.NSObject {
+  public var api: TitanFramework.APIService
+  weak public var delegate: TitanFramework.TitanDelegate? {
+    get
+    set(value)
+  }
+  public static var sharedInstance: TitanFramework.TitanManager
+  public func initialize(_ window: UIKit.UIWindow?, _ application: UIKit.UIApplication, _ theme: TitanFramework.TMKTheme, _ isExternalEnter: Swift.Bool = true)
+  public func initializeWithoutNotifications(_ window: UIKit.UIWindow?, _ application: UIKit.UIApplication, _ theme: TitanFramework.TMKTheme, _ isExternalEnter: Swift.Bool = true)
+  public func initializeNotifications()
+  public func appWillTerminate()
+  public func setPushDelegate(_ delegate: PushKit.PKPushRegistryDelegate)
+  @available(iOS 10.0, *)
+  public func setNotificationDelegate(_ subDelegate: UserNotifications.UNUserNotificationCenterDelegate)
+  public func handlePushNotification(_ userInfo: [Swift.AnyHashable : Any])
+  public func getTheme() -> TitanFramework.TMKTheme
+  public func getLoaderScreen() -> UIKit.UIViewController
+  public func getStartScreen() -> UIKit.UIViewController!
+  public func getChatScreen(_ appointmentId: Swift.String) -> UIKit.UIViewController
+  public func registerRemoteNotifications(_ deviceToken: Foundation.Data)
+  public func setRootViewController(_ vc: UIKit.UIViewController)
+  public func application(_ application: UIKit.UIApplication, _ notification: UIKit.UILocalNotification)
+  public func requestPermissions()
+  public func authenticate(authUserData: TitanFramework.AuthUserData, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  @objc deinit
+  @objc override dynamic public init()
+}
+@_hasMissingDesignatedInitializers public class AuthenticationService {
+  public static var sharedInstance: TitanFramework.AuthenticationService
+  public static func isLoggedIn() -> Swift.Bool
+  public func authenticate(authUserData: TitanFramework.AuthUserData, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func setSessionId(_ sessionId: Swift.String?)
+  public func isHasSessionId() -> Swift.Bool
+  public func login(email: Swift.String, password: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (TitanFramework.ApiErrorMessage) -> ())
+  public func loadCurrentPatient() -> RxSwift.Observable<TitanFramework.TMKPatient>
+  public func login(_ sessionId: Swift.String, onSuccess: @escaping () -> (), onError: @escaping (Swift.String) -> ())
+  public func checkIsAppleTestUser(email: Swift.String?) -> Swift.Bool
+  public func saveJSessionIdFromResponse(response: Alamofire.DataResponse<Any, Alamofire.AFError>)
+  @objc deinit
+}
+public struct Hash {
+  public static func MD2(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD4(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD5(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA1(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA224(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA256(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA384(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA512(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD2(_ string: Swift.String) -> Swift.String?
+  public static func MD4(_ string: Swift.String) -> Swift.String?
+  public static func MD5(_ string: Swift.String) -> Swift.String?
+  public static func SHA1(_ string: Swift.String) -> Swift.String?
+  public static func SHA224(_ string: Swift.String) -> Swift.String?
+  public static func SHA256(_ string: Swift.String) -> Swift.String?
+  public static func SHA384(_ string: Swift.String) -> Swift.String?
+  public static func SHA512(_ string: Swift.String) -> Swift.String?
+}
+extension String {
+  public func convertToClass() -> Swift.AnyClass?
+}
+@_hasMissingDesignatedInitializers public class StringClassConverter {
+  public static func convert(string className: Swift.String) -> Swift.AnyClass?
+  @objc deinit
+}
+public struct Base64 {
+  public static func MD2(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD4(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD5(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA1(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA224(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA256(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA384(_ data: Foundation.Data) -> Foundation.Data
+  public static func SHA512(_ data: Foundation.Data) -> Foundation.Data
+  public static func MD2(_ string: Swift.String) -> Swift.String?
+  public static func MD4(_ string: Swift.String) -> Swift.String?
+  public static func MD5(_ string: Swift.String) -> Swift.String?
+  public static func SHA1(_ string: Swift.String) -> Swift.String?
+  public static func SHA224(_ string: Swift.String) -> Swift.String?
+  public static func SHA256(_ string: Swift.String) -> Swift.String?
+  public static func SHA384(_ string: Swift.String) -> Swift.String?
+  public static func SHA512(_ string: Swift.String) -> Swift.String?
+}
+public struct MakeAppointmentError : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+@objc public class TMKDutyPrice : ObjectiveC.NSObject {
+  public var ageGroup: TitanFramework.TMKAgeGroup
+  public var price: Swift.Double
+  public var salePrice: Swift.Double?
+  public var dutyStartTime: Foundation.Date?
+  public var dutyEndTime: Foundation.Date?
+  public var available: Swift.Bool?
+  public init(_ ageGroup: TitanFramework.TMKAgeGroup)
+  public init(fromJson json: [Swift.String : Any])
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum LayerDirection : Swift.Int {
+  case vertical
+  case horizontal
+  public typealias RawValue = Swift.Int
+  public init?(rawValue: Swift.Int)
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @available(iOS 10.0, *)
+public class SegmentUnit : ObjectiveC.NSObject, Foundation.NSCopying {
+  public var unit: Foundation.Dimension?
+  public var name: Swift.String
+  public var image: UIKit.UIImage?
+  public var markerTypes: [TitanFramework.RangeMarkerType]
+  public var formatter: Foundation.MeasurementFormatter? {
+    get
+    set(value)
+  }
+  public convenience init(name: Swift.String, unit: Foundation.Dimension, formatter: Foundation.MeasurementFormatter)
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc @_inheritsConvenienceInitializers public class SegmentUnitControlStyle : ObjectiveC.NSObject {
+  public var textFieldBackgroundColor: UIKit.UIColor
+  public var textFieldFont: UIKit.UIFont
+  public var textFieldTextColor: UIKit.UIColor
+  public var scrollViewBackgroundColor: UIKit.UIColor
+  public var colorOverrides: Swift.Dictionary<TitanFramework.Range<Swift.Float>, UIKit.UIColor>?
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol MultiUnitRulerDataSource : AnyObject {
+  @available(iOS 10.0, *)
+  func unitForSegmentAtIndex(index: Swift.Int) -> TitanFramework.SegmentUnit
+  @available(iOS 10.0, *)
+  func rangeForUnit(_ unit: Foundation.Dimension) -> TitanFramework.Range<Swift.Float>
+  var numberOfSegments: Swift.Int { get set }
+  @available(iOS 10.0, *)
+  func styleForUnit(_ unit: Foundation.Dimension) -> TitanFramework.SegmentUnitControlStyle
+}
+public protocol MultiUnitRulerDelegate : AnyObject {
+  @available(iOS 10.0, *)
+  func valueChanged(measurement: Foundation.NSMeasurement, sender: TitanFramework.MultiUnitRuler)
+}
+@objc @_inheritsConvenienceInitializers @available(iOS 10.0, *)
+public class MultiUnitRuler : UIKit.UIView {
+  weak public var dataSource: TitanFramework.MultiUnitRulerDataSource? {
+    get
+    set(value)
+  }
+  weak public var delegate: TitanFramework.MultiUnitRulerDelegate?
+  public var measurement: Foundation.NSMeasurement?
+  public var direction: TitanFramework.LayerDirection
+  @objc override required dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  open func refresh()
+  @objc override dynamic public func layoutSubviews()
+  @objc deinit
+}
+public var WebsocketDidConnectNotification: Swift.String
+public var WebsocketDidDisconnectNotification: Swift.String
+public var WebsocketDisconnectionErrorKeyName: Swift.String
+public enum CloseCode : Swift.UInt16 {
+  case normal
+  case goingAway
+  case protocolError
+  case protocolUnhandledType
+  case noStatusReceived
+  case encoding
+  case policyViolated
+  case messageTooBig
+  public typealias RawValue = Swift.UInt16
+  public init?(rawValue: Swift.UInt16)
+  public var rawValue: Swift.UInt16 {
+    get
+  }
+}
+public enum ErrorType : Swift.Error {
+  case outputStreamWriteError
+  case compressionError
+  case invalidSSLError
+  case writeTimeoutError
+  case protocolError
+  case upgradeError
+  case closeError
+  public static func == (a: TitanFramework.ErrorType, b: TitanFramework.ErrorType) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct WSError : Swift.Error {
+  public let type: TitanFramework.ErrorType
+  public let message: Swift.String
+  public let code: Swift.Int
+}
+public protocol WebSocketClient : AnyObject {
+  var delegate: TitanFramework.WebSocketDelegate? { get set }
+  var pongDelegate: TitanFramework.WebSocketPongDelegate? { get set }
+  var disableSSLCertValidation: Swift.Bool { get set }
+  var overrideTrustHostname: Swift.Bool { get set }
+  var desiredTrustHostname: Swift.String? { get set }
+  var sslClientCertificate: TitanFramework.SSLClientCertificate? { get set }
+  var security: TitanFramework.SSLTrustValidator? { get set }
+  var enabledSSLCipherSuites: [Security.SSLCipherSuite]? { get set }
+  var isConnected: Swift.Bool { get }
+  func connect()
+  func disconnect(forceTimeout: Foundation.TimeInterval?, closeCode: Swift.UInt16)
+  func write(string: Swift.String, completion: (() -> ())?)
+  func write(data: Foundation.Data, completion: (() -> ())?)
+  func write(ping: Foundation.Data, completion: (() -> ())?)
+  func write(pong: Foundation.Data, completion: (() -> ())?)
+}
+extension WebSocketClient {
+  public func write(string: Swift.String)
+  public func write(data: Foundation.Data)
+  public func write(ping: Foundation.Data)
+  public func write(pong: Foundation.Data)
+  public func disconnect()
+}
+public struct SSLSettings {
+  public let useSSL: Swift.Bool
+  public let disableCertValidation: Swift.Bool
+  public var overrideTrustHostname: Swift.Bool
+  public var desiredTrustHostname: Swift.String?
+  public let sslClientCertificate: TitanFramework.SSLClientCertificate?
+  public let cipherSuites: [Security.SSLCipherSuite]?
+}
+public protocol WSStreamDelegate : AnyObject {
+  func newBytesInStream()
+  func streamDidError(error: Swift.Error?)
+}
+public protocol WSStream {
+  var delegate: TitanFramework.WSStreamDelegate? { get set }
+  func connect(url: Foundation.URL, port: Swift.Int, timeout: Foundation.TimeInterval, ssl: TitanFramework.SSLSettings, completion: @escaping ((Swift.Error?) -> Swift.Void))
+  func write(data: Foundation.Data) -> Swift.Int
+  func read() -> Foundation.Data?
+  func cleanup()
+  func sslTrust() -> (trust: Security.SecTrust?, domain: Swift.String?)
+}
+@objc @_inheritsConvenienceInitializers open class FoundationStream : ObjectiveC.NSObject, TitanFramework.WSStream, Foundation.StreamDelegate {
+  weak public var delegate: TitanFramework.WSStreamDelegate?
+  public var enableSOCKSProxy: Swift.Bool
+  public func connect(url: Foundation.URL, port: Swift.Int, timeout: Foundation.TimeInterval, ssl: TitanFramework.SSLSettings, completion: @escaping ((Swift.Error?) -> Swift.Void))
+  public func write(data: Foundation.Data) -> Swift.Int
+  public func read() -> Foundation.Data?
+  public func cleanup()
+  public func sslTrust() -> (trust: Security.SecTrust?, domain: Swift.String?)
+  @objc open func stream(_ aStream: Foundation.Stream, handle eventCode: Foundation.Stream.Event)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol WebSocketDelegate : AnyObject {
+  func websocketDidConnect(socket: TitanFramework.WebSocketClient)
+  func websocketDidDisconnect(socket: TitanFramework.WebSocketClient, error: Swift.Error?)
+  func websocketDidReceiveMessage(socket: TitanFramework.WebSocketClient, text: Swift.String)
+  func websocketDidReceiveData(socket: TitanFramework.WebSocketClient, data: Foundation.Data)
+}
+public protocol WebSocketPongDelegate : AnyObject {
+  func websocketDidReceivePong(socket: TitanFramework.WebSocketClient, data: Foundation.Data?)
+}
+public protocol WebSocketAdvancedDelegate : AnyObject {
+  func websocketDidConnect(socket: TitanFramework.WebSocket)
+  func websocketDidDisconnect(socket: TitanFramework.WebSocket, error: Swift.Error?)
+  func websocketDidReceiveMessage(socket: TitanFramework.WebSocket, text: Swift.String, response: TitanFramework.WebSocket.WSResponse)
+  func websocketDidReceiveData(socket: TitanFramework.WebSocket, data: Foundation.Data, response: TitanFramework.WebSocket.WSResponse)
+  func websocketHttpUpgrade(socket: TitanFramework.WebSocket, request: Swift.String)
+  func websocketHttpUpgrade(socket: TitanFramework.WebSocket, response: Swift.String)
+}
+@objc open class WebSocket : ObjectiveC.NSObject, Foundation.StreamDelegate, TitanFramework.WebSocketClient, TitanFramework.WSStreamDelegate {
+  public enum OpCode : Swift.UInt8 {
+    case continueFrame
+    case textFrame
+    case binaryFrame
+    case connectionClose
+    case ping
+    case pong
+    public typealias RawValue = Swift.UInt8
+    public init?(rawValue: Swift.UInt8)
+    public var rawValue: Swift.UInt8 {
+      get
+    }
+  }
+  public static var ErrorDomain: Swift.String
+  public var callbackQueue: Dispatch.DispatchQueue
+  @_hasMissingDesignatedInitializers public class WSResponse {
+    public var code: TitanFramework.WebSocket.OpCode
+    public var frameCount: Swift.Int
+    public var buffer: Foundation.NSMutableData?
+    final public let firstFrame: Foundation.Date
+    @objc deinit
+  }
+  weak public var delegate: TitanFramework.WebSocketDelegate?
+  weak public var advancedDelegate: TitanFramework.WebSocketAdvancedDelegate?
+  weak public var pongDelegate: TitanFramework.WebSocketPongDelegate?
+  public var onConnect: (() -> Swift.Void)?
+  public var onDisconnect: ((Swift.Error?) -> Swift.Void)?
+  public var onText: ((Swift.String) -> Swift.Void)?
+  public var onData: ((Foundation.Data) -> Swift.Void)?
+  public var onPong: ((Foundation.Data?) -> Swift.Void)?
+  public var onHttpResponseHeaders: (([Swift.String : Swift.String]) -> Swift.Void)?
+  public var disableSSLCertValidation: Swift.Bool
+  public var overrideTrustHostname: Swift.Bool
+  public var desiredTrustHostname: Swift.String?
+  public var sslClientCertificate: TitanFramework.SSLClientCertificate?
+  public var enableCompression: Swift.Bool
+  public var security: TitanFramework.SSLTrustValidator?
+  public var enabledSSLCipherSuites: [Security.SSLCipherSuite]?
+  public var isConnected: Swift.Bool {
+    get
+  }
+  public var request: Foundation.URLRequest
+  public var currentURL: Foundation.URL {
+    get
+  }
+  public var respondToPingWithPong: Swift.Bool
+  public init(request: Foundation.URLRequest, protocols: [Swift.String]? = nil, stream: TitanFramework.WSStream = FoundationStream())
+  public convenience init(url: Foundation.URL, protocols: [Swift.String]? = nil)
+  public convenience init(url: Foundation.URL, writeQueueQOS: Foundation.QualityOfService, protocols: [Swift.String]? = nil)
+  open func connect()
+  open func disconnect(forceTimeout: Foundation.TimeInterval? = nil, closeCode: Swift.UInt16 = CloseCode.normal.rawValue)
+  open func write(string: Swift.String, completion: (() -> ())? = nil)
+  open func write(data: Foundation.Data, completion: (() -> ())? = nil)
+  open func write(ping: Foundation.Data, completion: (() -> ())? = nil)
+  open func write(pong: Foundation.Data, completion: (() -> ())? = nil)
+  public func newBytesInStream()
+  public func streamDidError(error: Swift.Error?)
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public class SystemSettings : ObjectiveC.NSObject, Foundation.NSCoding {
+  public init(_ termsOfUseLink: Swift.String? = "", _ isUseDutyDoctorsSchedule: Swift.Bool? = false)
+  public init?(arrayJson: [Gloss.JSON])
+  public init?(json: Gloss.JSON)
+  public func toJSON() -> Gloss.JSON?
+  @objc required public init(coder decoder: Foundation.NSCoder)
+  @objc public func encode(with coder: Foundation.NSCoder)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum AppointmentSource : Swift.String {
+  case QUEUED
+  case SCHEDULED
+  case URGENT
+  case ACTIVE
+  case INTRAMURAL
+  case ADVICE
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct HMAC {
+  public enum DigestType {
+    case hex
+    case base64
+    public static func == (a: TitanFramework.HMAC.DigestType, b: TitanFramework.HMAC.DigestType) -> Swift.Bool
+    public var hashValue: Swift.Int {
+      get
+    }
+    public func hash(into hasher: inout Swift.Hasher)
+  }
+  public static func MD5(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func SHA1(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func SHA224(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func SHA256(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func SHA384(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func SHA512(_ data: Foundation.Data, key: Foundation.Data) -> Foundation.Data?
+  public static func MD5(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+  public static func SHA1(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+  public static func SHA224(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+  public static func SHA256(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+  public static func SHA384(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+  public static func SHA512(_ string: Swift.String, key: Swift.String, digest: TitanFramework.HMAC.DigestType = .hex) -> Swift.String?
+}
+@_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers public class MonitoredState<Type> : TitanFramework.State<Type> {
+  @objc deinit
+}
+extension MonitoredState {
+  public func attach(listener: TitanFramework.StateListener)
+}
+public enum TrackedEventDirection {
+  case regular
+  case second
+  case third
+  case forth
+  public static func == (a: TitanFramework.TrackedEventDirection, b: TitanFramework.TrackedEventDirection) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol TrackedEvent {
+  func getRawValue() -> Swift.String
+}
+public enum AuthTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case AUTH_TAP_ENTER_TO_LOGIN_VIEW
+  case AUTH_TAP_PHONE_ALREADY_EXISTS
+  case AUTH_LOGIN_VIEW_OPENED
+  case AUTH_TAP
+  case AUTH_WRONG_PASS
+  case AUTH_SUCCESS
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum RegisterTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case TAP_ENTER_TO_REGISTER_VIEW
+  case TAP_ENTER_AFTER_MAKE_APPOINTMENT_TRY
+  case TAP_ENTER_ON_LOGIN_VIEW
+  case REGISTRATION_VIEW_OPENED
+  case TAP_PROMOCODE
+  case TAP_PROMOCODE_APPLY
+  case TAP_REGISTRATION_NEXT
+  case REGISTRATION_ERROR
+  case PROMOCODE_NOT_FOUND
+  case LOGIN_ALREADY_EXIST
+  case CONFIRMATION_CODE_IS_INCORRECT
+  case CONFIRMATION_CODE_RESEND
+  case CONFIRM_PHONE_NEXT
+  case REGISTER_BY_RECOVER_PASSWORD
+  case TAP_REGISTER_BY_RECOVER_PASSWORD_AGREEMENTS
+  case TAP_REGISTER_BY_RECOVER_PASSWORD_NEXT
+  case PROFILE_INFO_EDIT_VIEW_OPENED
+  case TAP_PROFILE_INFO_EDIT_VIEW_NEXT
+  case TAP_PROFILE_INFO_EDIT_VIEW_SKIP
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FamiliarizationTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case OPEN_MAIN_SCREEN
+  case TAP_HELP_ICON
+  case NOT_LOGGED_IN_VIEW_OPENED
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum RecoverPasswordTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case TAP_ENTER_AFTER_MAKE_APOINTMENT
+  case TAP_ENTER_ON_LOGIN_VIEW
+  case FORGOT_PASSWORD_VIEW_OPENED
+  case ERROR_PHONE_IS_NOT_REGISTERED
+  case PHONE_HAS_MANY_ACOOUNTS
+  case TAP_ON_SELECTION_ACCOUNT_FROM_MANY
+  case TAP_FORGOT_PASSWORD_NEXT
+  case EMAIL_SENT
+  case TAP_EMAIL_SENT_NEXT
+  case CONFIRM_PHONE_VIEW_OPENED
+  case CONFIRMATION_CODE_IS_INCORRECT
+  case CONFIRMATION_CODE_RESEND
+  case CONFIRM_PHONE_NEXT
+  case TAP_AGREEMENTS
+  case TAP_RESTORE_PASSWORD_NEXT
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum DutyTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case TAP_ENTER_TO_ADULT_DUTY
+  case TAP_ENTER_TO_CHILD_DUTY
+  case DUTY_CONFIRM_APPOINTMENT_VIEW_OPEN
+  case TAP_PROMOCODE
+  case TAP_PROMOCODE_APPLY
+  case PROMOCODE_NOT_FOUND
+  case TAP_AGREEMENTS
+  case TAP_DUTY_MAKE_APPOINTMENT_NEXT
+  case DEPOSIT_VIEW_OPEN
+  case PAYMENT_SUCCESS
+  case CHAT_VIEW_OPENED
+  case CHAT_MESSAGE_SENT
+  case VIDEO_CALL_END
+  case DOCTOR_MADE_CONCLUSION
+  case DOWNLOAD_CONCLUSION
+  case MAKE_APPOINTMENT_REVIEW
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SpecialistsTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case FILTER_AGE_IS_CHANGED
+  case FILTER_SPECIALITY_IS_CHANGED
+  case TAP_MAKE_APPOINTMENT_ON_DOCTORS_LIST
+  case APPOINTMENT_SCHEDULE_VIEW_OPENED
+  case APPOINTMENT_SCHEDULE_NEXT
+  case CONFIRM_APPOINTMENT_VIEW_OPEN
+  case TAP_PROMOCODE
+  case TAP_PROMOCODE_APPLY
+  case PROMOCODE_NOT_FOUND
+  case TAP_AGREEMENTS
+  case TAP_MAKE_APPOINTMENT_NEXT
+  case TAP_OPEN_DOCTOR_DETAIL_INFO
+  case DOCTOR_DETAIL_INFO_VIEW_OPENED
+  case TAP_OPEN_DOCTOR_COMMENTS
+  case DOCTOR_COMMENTS_VIEW_OPENED
+  case DOCTOR_COMMENTS_VIEW_SCROLLED_DOWN
+  case TAP_OPEN_CERTIFICATES
+  case DOCTOR_CERTIFICATES_VIEW_OPENED
+  case TAP_OPEN_CERTIFICATE
+  case TAP_ADD_FAVORITE
+  case TAP_ADD_FAVORITE_ON_DOCTOR_DETAIL_INFO
+  case TAP_MAKE_APPOINTMET_ON_DOCTOR_DETAIL_INFO
+  case DEPOSIT_VIEW_OPENED_FROM_DOCTOR_DETAIL_INFO
+  case DEPOSIT_VIEW_OPENED_FROM_FAMILY
+  case PAYMENT_SUCCESS
+  case CHAT_VIEW_OPENED
+  case CHAT_MESSAGE_SENT
+  case VIDEO_CALL_END
+  case DOCTOR_MADE_CONCLUSION
+  case DOWNLOAD_CONCLUSION
+  case MAKE_APPOINTMENT_REVIEW
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AppointmentsTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case APPOINTMENTS_VIEW_OPENED
+  case APPOINTMENTS_VIEW_OPENED_FINISHED
+  case APPOINTMENTS_VIEW_OPENED_CANCELLED
+  case TAP_GO_TO_APPOINTMENT
+  case TAP_GO_TO_APPOINTMENT_FINISHED
+  case TAP_APPOINTMENT_CANCEL
+  case TAP_GOT_FOR_REVIEW
+  case OPEN_POPAP_CANCEL_APPOINTMENT
+  case TAP_CANCEL_APPOINTMENT_TO_PROCESS
+  case TAP_NOT_TO_CANCEL_APPOINTMENT
+  case TAP_ON_FINISHED
+  case TAP_ON_CANCELLED
+  case OPEN_CHAT_FROM_APPOINTMENT_LIST
+  case TAP_MAKE_APPOINTMENT_REVIEW
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FilesTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case MY_FILES_VIEW_OPENED
+  case TAP_ADD_FILE
+  case ADD_FILE_POPAP_OPENED
+  case TAP_ADD_FILE_NEXT
+  case TAP_ON_FILE
+  case TAP_SHARE_FILE
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum ProfileTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case PROFILE_VIEW_OPENED
+  case TAP_LOGOUT_BUTTON
+  case LOGOUT_POPAP_OPENED
+  case LOGOUT_CONFIRM
+  case TAP_PAYMENT
+  case PAYMENT_POPAP_OPENED
+  case TAP_PAYMENT_CONFIRM
+  case DEPOSIT_VIEW_OPENED
+  case PAYMENT_SUCCESS
+  case TAP_PROMOCODE
+  case TAP_PROMOCODE_APPLY
+  case TAP_CONDITIONS
+  case CONDITIONS_OPENED
+  case TAP_PRODUCT
+  case CONDITION_DETAILS_VIEW_OPENED
+  case TAP_PROFILE_SETTINGS
+  case PROFILE_SETTINGS_OPENED
+  case TAP_NOTIFICATION_SETTINGS
+  case TAP_NOTIFICATION_SETTINGS_OPENED_SITE
+  case TAP_NOTIFICATION_SETTINGS_OPENED_EMAIL
+  case TAP_NOTIFICATION_SETTINGS_OPENED_SMS
+  case CHANGE_NOTIFICATION
+  case TAP_CHANGE_PASSWORD
+  case CHANGE_PASSWORD_VIEW_OPENED
+  case OLD_PASSWORD_IS_INCORRECT_ERROR
+  case PASSWORDS_IS_NOT_EQUAL_ERROR
+  case PROFILE_EDIT_NEXT
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum FamilyTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case TAP_FAMILY_PROFILE_OPEN
+  case FAMILY_PROFILE_OPENED
+  case TAP_PAYMENT
+  case PAYMENT_POPAP_OPENED
+  case TAP_PAYMENT_CONFIRM
+  case TAP_PROMOCODE
+  case TAP_PROMOCODE_APPLY
+  case TAP_CONDITIONS
+  case CONDITIONS_OPENED
+  case TAP_PRODUCT
+  case CONDITION_DETAILS_VIEW_OPENED
+  case TAP_ADD_MEMBER
+  case ADD_MEMBER_VIEW_OPENED
+  case TAP_CREATE_NEW_ACCOUNT
+  case TAP_ADD_EXISTING_ACCOUNT
+  case CREATE_NEW_ACCOUNT_VIEW_OPENED
+  case CREATE_NEW_ACCOUNT_NEXT
+  case PHONE_ALREADY_EXISTS_ERROR
+  case PHONE_CONFIRMATION_VIEW_OPENED
+  case TAP_CONFIRM_PHONE_NEXT
+  case SEARCH_MEMBER_VIEW_OPENED
+  case TAP_SEARCH
+  case MEMBER_ALREADY_IN_GROUP
+  case MEMBER_CAN_BE_ADDED
+  case TAP_GET_CONFIRMATION_CODE
+  case PHONE_CONFIRMATION_VIEW_FOR_SEARCH_OPENED
+  case ADD_FOUND_MEMBER_NEXT
+  case CODE_IS_INCORRECT
+  case TAP_ON_SELECT_MEMBER
+  case MEMBER_PROFILE_OPENED
+  case TAP_ADD_PRODUCT
+  case SELECT_PRODUCT_FOR_MEMBER_VIEW_OPENED
+  case ADD_SELECTED_PRODUCT_NEXT
+  case TAP_EXCLUDE_MEMBER
+  case EXCLUDE_POPAP_OPENED
+  case TAP_EXCLUDE_CONFIRM
+  case TAP_ENTER_AS_MEMBER
+  case ENTER_AS_MEMBER_SUCCESSFULLY
+  case RETURN_TO_OWN_ACCOUNT
+  case TAP_FAMILY_CONDITIONS
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum OtherTrackedEvents : Swift.String, TitanFramework.TrackedEvent {
+  case ASK_APP_RATING_POPAP_OPENED
+  case ASK_APP_RATING_NEXT
+  case ERROR
+  case SERVICE_UNAVAILABLE_ERROR
+  public func getRawValue() -> Swift.String
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum TMKError : Swift.Error {
+  case clientAlreadyInititialized
+  case clientNotInititialized
+  case unsupportedProtocolKind
+  public static func == (a: TitanFramework.TMKError, b: TitanFramework.TMKError) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum ProtocolKind {
+  case REST
+  case AMPQ
+  public static func == (a: TitanFramework.ProtocolKind, b: TitanFramework.ProtocolKind) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+@objc @_inheritsConvenienceInitializers public class TMKFramework : ObjectiveC.NSObject {
+  public static var `default`: TitanFramework.TMKClient {
+    get
+  }
+  public static func initialize(protocolKind: TitanFramework.ProtocolKind, address: Swift.String, user: Swift.String?, password: Swift.String?)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public protocol TMKPromocodeViewDelegate {
+  func promocodeView(didRegisteredPromocode promocode: TitanFramework.TMKPromocode)
+  func promocodeDidNotRegister(_ errorText: Swift.String)
+}
+public protocol TMKEAGLVideoViewDelegate {
+  func videoView(_ videoView: TitanFramework.TMKEAGLVideoView, didChangeVideoSize size: CoreGraphics.CGSize)
+}
+@objc @_inheritsConvenienceInitializers public class TMKEAGLVideoView : UIKit.UIView {
+  public var videoSize: CoreGraphics.CGSize
+  public var delegate: TitanFramework.TMKEAGLVideoViewDelegate?
+  public var isShowLogo: Swift.Bool
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  public init(_ isShowBorder: Swift.Bool)
+  @objc override dynamic public func layoutIfNeeded()
+  @objc deinit
+  public func remakeConstraints()
+  public func switchLogo()
+}
+extension TMKEAGLVideoView : WebRTC.RTCVideoViewDelegate {
+  @objc dynamic public func videoView(_ videoView: WebRTC.RTCVideoRenderer, didChangeVideoSize size: CoreGraphics.CGSize)
+}
+public protocol TMKTheme {
+  func getItunesAppId() -> Swift.String
+  func getImageLogoHeader() -> Swift.String
+  func getImageLogoVertical() -> Swift.String
+  func getPrivacyURL() -> Foundation.URL?
+  func getProductionServer() -> Swift.String
+  func getSupportPhone() -> Swift.String
+  func tintColor() -> UIKit.UIColor
+  func mainColor() -> UIKit.UIColor
+  func secondColor() -> UIKit.UIColor
+  func getNavigationElementsColor() -> UIKit.UIColor
+  func registrationButtonStyle() -> TitanFramework.ComponentStyle
+  func isOneDutyDoctor() -> Swift.Bool
+  func isNameRequiredOnRegistration() -> Swift.Bool
+  func isBirthdayRequiredOnRegistration() -> Swift.Bool
+  func isShowTimeToAppointment() -> Swift.Bool
+  func getDoctorUserpicImage() -> Swift.String
+  func getColorForDutyDoctorTitle() -> UIKit.UIColor
+  func isShowPatientNameOnPayment() -> Swift.Bool
+  func isRegistrationAllowed() -> Swift.Bool
+  func isHideRegistrationButton() -> Swift.Bool
+  func isRequestRegistration() -> Swift.Bool
+  func isShowMoney() -> Swift.Bool
+  func getYandexMetricaId() -> Swift.String?
+  func getDoctorListTabBarIcon() -> Swift.String
+  func getPartnerId() -> Swift.String
+  func isExternalAuthentication() -> Swift.Bool
+  func isShowMakeAppointmentButton() -> Swift.Bool
+  func isShowQueueNameInChat() -> Swift.Bool
+  func isShowNewMessagesCountOnBadge() -> Swift.Bool
+  func isShowConditionsInProfile() -> Swift.Bool
+  func isHideDutyDoctors() -> Swift.Bool
+  func isShowNavigationTabsWhenNotLoggedIn() -> Swift.Bool
+  func isFamilySwitchedOn() -> Swift.Bool
+  func getCallControllersColorFirst() -> UIKit.UIColor
+  func getCallControllersColorSecond() -> UIKit.UIColor
+  func getHangupColor() -> UIKit.UIColor
+  func getCallBackgroundColor() -> UIKit.UIColor
+  func getIncomeBubbleColor() -> UIKit.UIColor
+  func getOutcomeBubbleColor() -> UIKit.UIColor
+  func getRegularFontName() -> Swift.String
+  func getMediumFontName() -> Swift.String
+  func getBoldFontName() -> Swift.String
+  func getEventServiceToken() -> Swift.String?
+  func isShowMainTabBar() -> Swift.Bool
+  func isKeyboardToolBarEnabled() -> Swift.Bool
+  func getHealthMainColor() -> UIKit.UIColor
+  func getHealthSecondColor() -> UIKit.UIColor
+  func getHealthMeasureBackPlateColor() -> UIKit.UIColor
+  func getHealthMeasureTagCloudBackPlateColor() -> UIKit.UIColor
+  func getHealthBackPlateColor() -> UIKit.UIColor
+  func isShowForgotPasswordButton() -> Swift.Bool
+  func isShowChangePasswordSettings() -> Swift.Bool
+  func getCodeCountry() -> Swift.String
+  func isPartnerOnly() -> Swift.Bool
+  func getAppleTestUserLogin() -> Swift.String?
+  func isStartFromLoginView() -> Swift.Bool
+  func isShowTabBySMS() -> Swift.Bool
+  func getAppsFlyDevKey() -> Swift.String?
+  func getAppsFlyAppId() -> Swift.String?
+  func isShowESIALogin() -> Swift.Bool
+  func isShowLoginByEmail() -> Swift.Bool
+  func isShowAboutCompanyLink() -> Swift.Bool
+  func isShowPhoneNumberViews() -> Swift.Bool
+  func isShowPromocodes() -> Swift.Bool
+  func isShowAgeFilter() -> Swift.Bool
+  func shouldCheckNextAppointment() -> Swift.Bool
+  func shouldCheckRefuseAppointments() -> Swift.Bool
+  func isSendLogs() -> Swift.Bool
+}
+public protocol TMKThemeExtensional {
+  var mainColorPartner: UIKit.UIColor? { get set }
+  var secondColorPartner: UIKit.UIColor? { get set }
+  var logoPartner: Swift.String? { get set }
+}
+public class TMKPromocode {
+  public var id: Swift.String
+  public var code: Swift.String
+  public var sale: Swift.Double
+  public var type: Swift.String
+  public var description: Swift.String
+  public var dateStart: Foundation.Date?
+  public var dateEnd: Foundation.Date?
+  public var isActive: Swift.Bool
+  public init(fromJson json: [Swift.String : Any])
+  public func getEffectDescription() -> Swift.String
+  @objc deinit
+}
+extension NSNotification.Name {
+  public static var MeasurerDidReadValue: Foundation.Notification.Name
+}
+public enum TMKChatState {
+  case offline
+  case connecting
+  case loading
+  case connected
+  public static func == (a: TitanFramework.TMKChatState, b: TitanFramework.TMKChatState) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public protocol TMKChatDelegate {
+  func chat(_ chat: TitanFramework.TMKChat, didChangeState state: TitanFramework.TMKChatState, withError error: Swift.String?)
+  func chat(_ chat: TitanFramework.TMKChat, didReceiveMessage message: TitanFramework.TMKChatMessage)
+  func chat(_ chat: TitanFramework.TMKChat, didFinishLoadingHistory history: [TitanFramework.TMKChatMessage])
+  func chat(_ chat: TitanFramework.TMKChat, didChangeMessageState message: TitanFramework.TMKChatMessage)
+  func chat(_ chat: TitanFramework.TMKChat, message: TitanFramework.TMKChatMessage, progress: Swift.Double)
+  func chatDidReceiveReport()
+}
+@objc @_inheritsConvenienceInitializers public class TMKChat : ObjectiveC.NSObject, TitanFramework.WebSocketDelegate {
+  public var state: TitanFramework.TMKChatState
+  public var delegate: TitanFramework.TMKChatDelegate?
+  public func start(chatSession: TitanFramework.ChatSession!, delegate: TitanFramework.TMKChatDelegate)
+  public func start(appointment: TitanFramework.TMKAppointment, delegate: TitanFramework.TMKChatDelegate)
+  public func getChatHistoryBlock()
+  public func connect()
+  public func finish()
+  public func send(text: Swift.String, file: TitanFramework.TMKFile?) throws
+  public func send(message: TitanFramework.TMKChatMessage) throws
+  public func sendServiceMessage(callType: TitanFramework.CallServiceType) throws
+  public func sendImage(image: UIKit.UIImage, withName filename: Swift.String) throws
+  public func websocketDidConnect(socket: TitanFramework.WebSocketClient)
+  public func websocketDidDisconnect(socket: TitanFramework.WebSocketClient, error: Swift.Error?)
+  public func websocketDidReceiveMessage(socket: TitanFramework.WebSocketClient, text: Swift.String)
+  public func websocketDidReceiveData(socket: TitanFramework.WebSocketClient, data: Foundation.Data)
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension UIColor {
+  public convenience init(red: Swift.Int, green: Swift.Int, blue: Swift.Int, opacity: CoreGraphics.CGFloat)
+  public func tintHighlighted() -> UIKit.UIColor
+  public func tintDisabled() -> UIKit.UIColor
+  public class var TMKGreen: UIKit.UIColor {
+    get
+  }
+  public class var TMKRed: UIKit.UIColor {
+    get
+  }
+  public class var TMKBlue: UIKit.UIColor {
+    get
+  }
+  public class var TMKPink: UIKit.UIColor {
+    get
+  }
+  public class var TMKGreenHighlighted: UIKit.UIColor {
+    get
+  }
+  public class var TMKGreenDisabled: UIKit.UIColor {
+    get
+  }
+  public class var TMKOrange: UIKit.UIColor {
+    get
+  }
+  public class var TMKOrangeHighlighted: UIKit.UIColor {
+    get
+  }
+  public class var TMKOrangeDisabled: UIKit.UIColor {
+    get
+  }
+  public class var TMKDarkText: UIKit.UIColor {
+    get
+  }
+  public class var TMKLightText: UIKit.UIColor {
+    get
+  }
+  public class var TMKLighterText: UIKit.UIColor {
+    get
+  }
+  public class var TMKImageBorder: UIKit.UIColor {
+    get
+  }
+  public class var TMKPanelGray: UIKit.UIColor {
+    get
+  }
+  public class var TMKSystemMessageNeutral: UIKit.UIColor {
+    get
+  }
+  public class var TMKSystemMessageError: UIKit.UIColor {
+    get
+  }
+  public class var TMKSystemMessageSuccess: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonLocalBackground: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonLocalBorder: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonLocalStatus: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonRemoteBackground: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonRemoteBorder: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonRemoteStatus: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonSystemBackground: UIKit.UIColor {
+    get
+  }
+  public class var TMKChatBalloonSystemBorder: UIKit.UIColor {
+    get
+  }
+}
+extension UIColor {
+  public convenience init?(hex: Swift.String)
+}
+@objc public class TitanInitializer : ObjectiveC.NSObject {
+  public init(_ window: UIKit.UIWindow?, _ application: UIKit.UIApplication, _ theme: TitanFramework.TMKTheme, initNotifications: Swift.Bool = true, isExternalEnter: Swift.Bool = false)
+  public func initNotifications()
+  public func switchToServer(_ productionServerURL: Swift.String)
+  public func requestCameraPermission()
+  public func requestMicPermission()
+  @objc deinit
+  @objc override dynamic public init()
+}
+public enum TMKSortDirection {
+  case ASC
+  case DESC
+  public static func == (a: TitanFramework.TMKSortDirection, b: TitanFramework.TMKSortDirection) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public struct TMKSortOrder {
+  public var column: Swift.String
+  public var direction: TitanFramework.TMKSortDirection
+}
+@_inheritsConvenienceInitializers public class TMKPageView<T> : ObjectiveC.NSObject {
+  public var items: [T]
+  public var total: Swift.Int
+  public var pageNumber: Swift.Int
+  public var pageSize: Swift.Int
+  public var sort: TitanFramework.TMKSortOrder?
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension UIImagePickerController {
+  @objc override dynamic open var shouldAutorotate: Swift.Bool {
+    @objc get
+  }
+  @objc override dynamic open var supportedInterfaceOrientations: UIKit.UIInterfaceOrientationMask {
+    @objc get
+  }
+}
+extension Data {
+  public var hexString: Swift.String {
+    get
+  }
+  public var base64: Foundation.Data {
+    get
+  }
+  public var base64String: Swift.String {
+    get
+  }
+}
+public enum TMKNotificationSettingsType : Swift.String {
+  case APPOINTMENT_CREATED
+  case APPOINTMENT_CREATED_ADMIN
+  case APPOINTMENT_REPORT_ADD
+  case APPOINTMENT_BEGIN_SOON
+  case APPOINTMENT_QUEUE_ADD
+  case APPOINTMENT_FINISHED
+  case APPOINTMENT_NOT_STARTED
+  case DUTY_APPOINTMENT_NOT_PROCESSED
+  case APPOINTMENT_BAD_REVIEW
+  case APPOINTMENT_WITHOUT_VIDEO
+  case APPOINTMENT_VERY_SHORT
+  case RECEIPT_TO_ACCOUNT
+  case EXPENSE_FROM_ACCOUNT
+  case GET_NEW_CHAT_MESSAGE
+  case QUEUE_LENGTH_CHANGED
+  case APPOINTMENT_CANCELLED
+  case DOCTOR_CALL_STARTED
+  case TIME_TO_APPOINTMENT
+  public var description: Swift.String {
+    get
+  }
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class MimasInitializer : ObjectiveC.NSObject {
+  public init(_ window: UIKit.UIWindow?, _ application: UIKit.UIApplication, _ theme: TitanFramework.TMKTheme, _ rootViewController: UIKit.UIViewController? = nil)
+  public func voipRegistration()
+  public func initNotifications()
+  public func switchToServer(_ productionServerURL: Swift.String)
+  public func requestCameraPermission()
+  public func requestMicPermission()
+  @objc deinit
+  @objc override dynamic public init()
+}
+@objc public class ComponentStyle : ObjectiveC.NSObject {
+  public var textColor: UIKit.UIColor!
+  public var textColorHighlighted: UIKit.UIColor!
+  public var textColorDisabled: UIKit.UIColor!
+  public var backgroundColor: UIKit.UIColor!
+  public var backgroundColorHighlighted: UIKit.UIColor!
+  public init(_ textColor: UIKit.UIColor, _ backgroundColor: UIKit.UIColor)
+  public init(_ textColor: UIKit.UIColor, _ backgroundColor: UIKit.UIColor, backgroundColorHighlighted: UIKit.UIColor)
+  public init(_ textColor: UIKit.UIColor, _ textColorHighlighted: UIKit.UIColor, _ backgroundColor: UIKit.UIColor)
+  public init(_ textColor: UIKit.UIColor, _ textColorHighlighted: UIKit.UIColor, _ backgroundColor: UIKit.UIColor, backgroundColorHighlighted: UIKit.UIColor)
+  public init(_ textColor: UIKit.UIColor, _ textColorHighlighted: UIKit.UIColor, _ textColorDisabled: UIKit.UIColor, _ backgroundColor: UIKit.UIColor)
+  @objc deinit
+  @objc override dynamic public init()
+}
+public struct Group : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+public enum SuperProperty : Swift.String {
+  case login
+  case has_partner
+  case duty_adult_offer_zero
+  case duty_child_offer_zero
+  case spec_adult_offer_zero
+  case spec_child_offer_zero
+  case duty_adult_fact_zero
+  case duty_child_fact_zero
+  case spec_adult_fact_zero
+  case spec_child_fact_zero
+  case duty_adult_mismatch
+  case duty_child_mismatch
+  case spec_adult_mismatch
+  case spec_child_mismatch
+  case signup_method
+  case family_login
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers public class TMKEventsTracker : ObjectiveC.NSObject {
+  public static var sharedInstance: TitanFramework.TMKEventsTracker
+  @objc override dynamic public init()
+  public func reInit()
+  public class func setSuperProperty(_ superProperty: TitanFramework.SuperProperty, value: Any!)
+  public class func authenticatedPerson(_ patient: TitanFramework.TMKPatient)
+  public class func clearAuthenticatedPerson()
+  public class func trackEvent(_ event: TitanFramework.TrackedEventsExternal)
+  public class func trackEvent(_ eventName: Swift.String, withValues values: [Swift.String : Any])
+  public class func trackPurchase(revenue: Foundation.NSDecimalNumber, currency: Swift.String, itemName: Swift.String?)
+  public class func registerAlias(_ patientId: Swift.String)
+  public class func identity()
+  public class func trackEvent(_ event: TitanFramework.TrackedEvent)
+  public class func trackEvent(rule: TitanFramework.TrackRule, direction: TitanFramework.TrackedEventDirection)
+  public class func trackEvent(rule: TitanFramework.TrackRule, direction: TitanFramework.TrackedEventDirection, property: [Swift.String : Any])
+  public class func trackEvent<T>(_ event: T, property: [Swift.String : Any]) where T : TitanFramework.TrackedEvent
+  public class func trackUnavailableError()
+  public class func trackError(_ message: Swift.String, _ screen: Swift.String)
+  @objc deinit
+}
+public struct TrackRule {
+}
+public struct Person : Gloss.JSONDecodable {
+  public init?(json: Gloss.JSON)
+}
+public enum Sex : Swift.String {
+  case MALE
+  case FEMALE
+  public func toTMKSex() -> TitanFramework.TMKSex
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc public class TMKCacheable : ObjectiveC.NSObject {
+  public var id: Swift.String
+  required public init(_ id: Swift.String)
+  public static func cacheGet<T>(byId id: Swift.String?) -> T? where T : TitanFramework.TMKCacheable
+  public static func cacheInit<T>(byId id: Swift.String) -> T where T : TitanFramework.TMKCacheable
+  public func cachePut()
+  @objc deinit
+  @objc override dynamic public init()
+}
+extension DispatchQueue {
+  public class func once(_ token: Swift.String, block: () -> Swift.Void)
+}
+public protocol ManyPromocodesViewDelegate {
+  func newPromocodeRegistered()
+}
+public enum TMKCallState {
+  case offline
+  case connecting
+  case listening
+  case offerReceived
+  case active
+  public static func == (a: TitanFramework.TMKCallState, b: TitanFramework.TMKCallState) -> Swift.Bool
+  public var hashValue: Swift.Int {
+    get
+  }
+  public func hash(into hasher: inout Swift.Hasher)
+}
+public enum CallServiceType : Swift.String {
+  case audio
+  case video
+  case notPermitAudio
+  case notPermitVideo
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol TMKCallDelegate {
+  func callDidChangeState(_ call: TitanFramework.TMKCall, state: TitanFramework.TMKCallState)
+  func callDidReceiveLocalVideoTrack(_ call: TitanFramework.TMKCall, localVideoTrack: TitanFramework.TMKVideoTrack)
+  func callDidReceiveRemoteVideoTrack(_ call: TitanFramework.TMKCall, remoteVideoTrack: TitanFramework.TMKVideoTrack)
+  func callDidError(_ call: TitanFramework.TMKCall, errorMessage: Swift.String)
+  func callDidReceiveOffer(_ call: TitanFramework.TMKCall, offer: Swift.String)
+  func callDidUpdateStats(_ call: TitanFramework.TMKCall)
+  func callDidConnected()
+  func callDidReceiveHangupMessage()
+}
+@objc public class TMKCall : ObjectiveC.NSObject, TitanFramework.WebSocketDelegate, WebRTC.RTCPeerConnectionDelegate {
+  public var delegate: TitanFramework.TMKCallDelegate?
+  public var tempDelegate: TitanFramework.TMKCallDelegate?
+  public var state: TitanFramework.TMKCallState
+  public init(onCompletion: @escaping (Swift.String?) -> ())
+  @objc deinit
+  public func start(videoSession: TitanFramework.VideoSession, delegate: TitanFramework.TMKCallDelegate)
+  public func connect()
+  public func reconnect()
+  public func isConnected() -> Swift.Bool
+  public func hasVideoSession(_ videoSession: TitanFramework.VideoSession) -> Swift.Bool
+  public func answer(offer: Swift.String)
+  public func hangup()
+  public func disconnect()
+  public func websocketDidConnect(socket: TitanFramework.WebSocketClient)
+  public func websocketDidDisconnect(socket: TitanFramework.WebSocketClient, error: Swift.Error?)
+  public func websocketDidReceiveMessage(socket: TitanFramework.WebSocketClient, text: Swift.String)
+  public func websocketDidReceiveData(socket: TitanFramework.WebSocketClient, data: Foundation.Data)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didRemove candidates: [WebRTC.RTCIceCandidate])
+  @objc public func peerConnectionShouldNegotiate(_ peerConnection: WebRTC.RTCPeerConnection)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didRemove stream: WebRTC.RTCMediaStream)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didChange newState: WebRTC.RTCSignalingState)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didChange newState: WebRTC.RTCIceGatheringState)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didChange newState: WebRTC.RTCIceConnectionState)
+  @objc(peerConnection:didAddStream:) public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didAdd stream: WebRTC.RTCMediaStream)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didGenerate candidate: WebRTC.RTCIceCandidate)
+  @objc public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection, didOpen dataChannel: WebRTC.RTCDataChannel)
+  public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection!, didCreateSessionDescription sdp: WebRTC.RTCSessionDescription!, error: Swift.Error!)
+  public func peerConnection(_ peerConnection: WebRTC.RTCPeerConnection!, didSetSessionDescriptionWithError error: Swift.Error!)
+  public func toggleMute()
+  public func isMicrophoneEnabled() -> Swift.Bool
+  public func toggleCameraEnabled()
+  public func isCameraEnabled() -> Swift.Bool
+  public func enableSpeaker()
+  @objc public func didSessionRouteChange(notification: Foundation.Notification)
+  public func getQoS(filter: Swift.String?) -> Swift.Double
+  @objc override dynamic public init()
+}
+public enum ChatMemberStatus : Swift.String {
+  case offline
+  case away
+  case online
+  case typing
+  public typealias RawValue = Swift.String
+  public init?(rawValue: Swift.String)
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public protocol ChatVCDelegate {
+  func willDisappearChat()
+  func backButtonPressed()
+}
+public protocol ChatVCProtocol {
+  var appointmentId: Swift.String? { get set }
+  var delegate: TitanFramework.ChatVCDelegate? { get set }
+  func dismissChat()
+  func doctorCallNotificationReceived()
+}
+@objc @_inheritsConvenienceInitializers @IBDesignable open class TMKBadge : UIKit.UILabel {
+  @objc @IBInspectable open var badgeColor: UIKit.UIColor {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var borderWidth: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var borderColor: UIKit.UIColor {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var insets: CoreGraphics.CGSize {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var shadowOpacityBadge: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var shadowRadiusBadge: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var shadowColorBadge: UIKit.UIColor {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var shadowOffsetBadge: CoreGraphics.CGSize {
+    @objc get
+    @objc set(value)
+  }
+  @objc @IBInspectable open var cornerRadius: CoreGraphics.CGFloat {
+    @objc get
+    @objc set(value)
+  }
+  @objc dynamic public convenience init()
+  @objc override dynamic public init(frame: CoreGraphics.CGRect)
+  @objc required dynamic public init?(coder aDecoder: Foundation.NSCoder)
+  @objc override dynamic open func textRect(forBounds bounds: CoreGraphics.CGRect, limitedToNumberOfLines numberOfLines: Swift.Int) -> CoreGraphics.CGRect
+  @objc override dynamic open func drawText(in rect: CoreGraphics.CGRect)
+  @objc override dynamic open func draw(_ rect: CoreGraphics.CGRect)
+  @available(iOS 8.0, *)
+  @objc override dynamic open func prepareForInterfaceBuilder()
+  @objc deinit
+}
+public class TMKPatientSecureAccountDescription {
+  public var patientId: Swift.String
+  public var patientLogin: Swift.String?
+  public init(fromJson json: [Swift.String : Any])
+  public func isValid() -> Swift.Bool
+  @objc deinit
+}
+public class TMKService {
+  public var id: Swift.String?
+  public var name: Swift.String
+  public var price: Swift.Double?
+  public var salePrice: Swift.Double?
+  public init(id: Swift.String?, name: Swift.String, price: Swift.Double?, salePrice: Swift.Double?)
+  public init(fromJson json: [Swift.String : Any])
+  public func getPriceString() -> Swift.String
+  public func getPriceBeforeSaleString() -> Swift.String
+  @objc deinit
+}
+public protocol StateListener {
+  func stateModified<T>(_ state: TitanFramework.State<T>)
+  var stateListenerQueue: Dispatch.DispatchQueue { get }
+}
+extension StateListener {
+  public var stateListenerQueue: Dispatch.DispatchQueue {
+    get
+  }
+}
+@_inheritsConvenienceInitializers @objc(Measure) public class Measure : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension Measure {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<TitanFramework.Measure>
+  @objc @NSManaged dynamic public var characteristic: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var kind: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var measureDate: Foundation.Date? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var syncStatus: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var value: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+}
+@_inheritsConvenienceInitializers @objc(Metric) public class Metric : CoreData.NSManagedObject {
+  @objc deinit
+  @objc override dynamic public init(entity: CoreData.NSEntityDescription, insertInto context: CoreData.NSManagedObjectContext?)
+}
+extension Metric {
+  @nonobjc public class func fetchRequest() -> CoreData.NSFetchRequest<TitanFramework.Metric>
+  @objc @NSManaged dynamic public var kind: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var lastMeasure: Foundation.Date? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var sensorId: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var sensorModel: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var sensorName: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+  @objc @NSManaged dynamic public var sensorStatus: Swift.String? {
+    @objc get
+    @objc set(value)
+  }
+}

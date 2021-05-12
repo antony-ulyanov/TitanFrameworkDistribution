@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'TitanFramework'
-  s.version          = '1.5.15-6'
+  s.version          = '1.5.15-7'
   s.summary          = 'Telemedicine functionality kit'
 
   s.description      = <<-DESC
@@ -37,10 +37,10 @@ TODO: Add long description of the pod here.
   s.dependency 'GoogleWebRTC', '1.1.29400'
   s.dependency 'RxAlamofire', '~> 5.2'
   s.dependency 'RxCocoa', '~> 5.1'
-  s.dependency 'Gloss', '~> 2.0'
-  s.dependency 'XCGLogger', '~> 6.1.0'
-  s.dependency 'SwiftDate', '~> 5.0.13'
-  s.dependency 'FontBlaster', '~> 4.1.0'
+  s.dependency 'Gloss', '~> 3.2'
+  s.dependency 'XCGLogger', '~> 7.0'
+  s.dependency 'SwiftDate', '~> 6.3'
+  s.dependency 'FontBlaster', '~> 5.1'
   s.dependency 'SnapKit', '~> 5.0'
   s.dependency 'Validator', '~> 3.2.1'
   s.dependency 'MBProgressHUD', '~> 1.1.0'
